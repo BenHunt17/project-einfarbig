@@ -1,4 +1,7 @@
+#pragma once
+
 #include <stdint.h>
+#include <stdbool.h>
 
 #define NUMBER_OF_GENERAL_REGISTERS 8
 
@@ -12,6 +15,10 @@ typedef struct {
 	uint8_t registers[NUMBER_OF_GENERAL_REGISTERS];
 	uint16_t sp;
 } CpuState;
+
+void initialiseCpuState(CpuState* cpuState);
+
+void freeCpuState(CpuState* cpuState);
 
 bool getFlag(CpuState* state, uint8_t flagBit);
 
