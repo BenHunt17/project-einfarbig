@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClCompile Include="src\cpu.c" />
     <ClCompile Include="src\main.c" />
+    <ClCompile Include="src\bus.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\cpu.h" />
+    <ClCompile Include="src\Bus.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
