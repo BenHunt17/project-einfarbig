@@ -11,8 +11,8 @@ typedef struct {
 	uint8_t ram[RAM_CAPACITY];
 } Bus;
 
-void initialiseBus(Bus* bus);
+void initialise_bus(Bus* bus);
 
-uint8_t readByte(Bus* bus, uint16_t address);
+uint8_t read_byte(Bus* bus, uint16_t address);
 
-void writeByte(Bus* bus, uint16_t address, uint8_t data);
+void write_byte(Bus* bus, uint16_t address, uint8_t data);
