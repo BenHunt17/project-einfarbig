@@ -91,6 +91,9 @@ void cpu_cycle(Bus* bus) {
 			case 0x45:
 				cycles = ld_r_r(bus, REGISTER_B, REGISTER_L);
 				break;
+			case 0x46:
+				cycles = ld_r_hl(bus, REGISTER_B);
+				break;
 			case 0x47:
 				cycles = ld_r_r(bus, REGISTER_B, REGISTER_A);
 				break;
@@ -111,6 +114,9 @@ void cpu_cycle(Bus* bus) {
 				break;
 			case 0x4D:
 				cycles = ld_r_r(bus, REGISTER_C, REGISTER_L);
+				break;
+			case 0x4E:
+				cycles = ld_r_hl(bus, REGISTER_C);
 				break;
 			case 0x4F:
 				cycles = ld_r_r(bus, REGISTER_C, REGISTER_A);
@@ -133,6 +139,9 @@ void cpu_cycle(Bus* bus) {
 			case 0x55:
 				cycles = ld_r_r(bus, REGISTER_D, REGISTER_L);
 				break;
+			case 0x56:
+				cycles = ld_r_hl(bus, REGISTER_D);
+				break;
 			case 0x57:
 				cycles = ld_r_r(bus, REGISTER_D, REGISTER_A);
 				break;
@@ -153,6 +162,9 @@ void cpu_cycle(Bus* bus) {
 				break;
 			case 0x5D:
 				cycles = ld_r_r(bus, REGISTER_E, REGISTER_L);
+				break;
+			case 0x5E:
+				cycles = ld_r_hl(bus, REGISTER_E);
 				break;
 			case 0x5F:
 				cycles = ld_r_r(bus, REGISTER_E, REGISTER_A);
@@ -175,6 +187,9 @@ void cpu_cycle(Bus* bus) {
 			case 0x65:
 				cycles = ld_r_r(bus, REGISTER_H, REGISTER_L);
 				break;
+			case 0x66:
+				cycles = ld_r_hl(bus, REGISTER_H);
+				break;
 			case 0x67:
 				cycles = ld_r_r(bus, REGISTER_H, REGISTER_A);
 				break;
@@ -196,6 +211,9 @@ void cpu_cycle(Bus* bus) {
 			case 0x6D:
 				cycles = ld_r_r(bus, REGISTER_L, REGISTER_L);
 				break;
+			case 0x6E:
+				cycles = ld_r_hl(bus, REGISTER_L);
+				break;
 			case 0x6F:
 				cycles = ld_r_r(bus, REGISTER_L, REGISTER_A);
 				break;
@@ -216,6 +234,9 @@ void cpu_cycle(Bus* bus) {
 				break;
 			case 0x7D:
 				cycles = ld_r_r(bus, REGISTER_A, REGISTER_L);
+				break;
+			case 0x7E:
+				cycles = ld_r_hl(bus, REGISTER_A);
 				break;
 			case 0x7F:
 				cycles = ld_r_r(bus, REGISTER_A, REGISTER_A);
@@ -246,5 +267,11 @@ int ld_r_r(Bus* bus, uint8_t r1, uint8_t r2) {
 
 int ld_r_n(Bus* bus, uint8_t r1) {
 	bus->cpu->registers[r1] = fetch8(bus);
+	return 8;
+}
+
+int ld_r_hl(Bus* bus, uint8_t r1) {
+	uint16_t address = (bus->cpu->registers[REGISTER_H] << 8) | bus->cpu->registers[REGISTER_L]; //TODO - maybe needs a helper function?
+	bus->cpu->registers[r1] = read_byte(bus, address);
 	return 8;
 }

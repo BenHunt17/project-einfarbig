@@ -49,3 +49,5 @@ int nop();
 int ld_r_r(Bus* bus, uint8_t r1, uint8_t r2);
 
 int ld_r_n(Bus* bus, uint8_t r1);
+
+int ld_r_hl(Bus* bus, uint8_t r1);
