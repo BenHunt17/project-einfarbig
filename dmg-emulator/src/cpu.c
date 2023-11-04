@@ -217,6 +217,27 @@ void cpu_cycle(Bus* bus) {
 			case 0x6F:
 				cycles = ld_r_r(bus, REGISTER_L, REGISTER_A);
 				break;
+			case 0x70:
+				cycles = ld_hl_r(bus, REGISTER_B);
+				break;
+			case 0x71:
+				cycles = ld_hl_r(bus, REGISTER_C);
+				break;
+			case 0x72:
+				cycles = ld_hl_r(bus, REGISTER_D);
+				break;
+			case 0x73:
+				cycles = ld_hl_r(bus, REGISTER_E);
+				break;
+			case 0x74:
+				cycles = ld_hl_r(bus, REGISTER_H);
+				break;
+			case 0x75:
+				cycles = ld_hl_r(bus, REGISTER_L);
+				break;
+			case 0x77:
+				cycles = ld_hl_r(bus, REGISTER_A);
+				break;
 			case 0x78:
 				cycles = ld_r_r(bus, REGISTER_A, REGISTER_B);
 				break;
@@ -273,5 +294,12 @@ int ld_r_n(Bus* bus, uint8_t r1) {
 int ld_r_hl(Bus* bus, uint8_t r1) {
 	uint16_t address = (bus->cpu->registers[REGISTER_H] << 8) | bus->cpu->registers[REGISTER_L]; //TODO - maybe needs a helper function?
 	bus->cpu->registers[r1] = read_byte(bus, address);
+	return 8;
+}
+
+int ld_hl_r(Bus* bus, uint8_t r1) {
+	uint8_t data = bus->cpu->registers[r1];
+	uint16_t address = (bus->cpu->registers[REGISTER_H] << 8) | bus->cpu->registers[REGISTER_L]; 
+	write_byte(bus, address, data);
 	return 8;
 }
