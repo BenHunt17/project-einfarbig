@@ -27,6 +27,14 @@ uint16_t fetch16(Bus* bus) {
 	return (high_byte << 8) | low_byte;
 }
 
+uint16_t read_register_pair(CpuState* cpu_state, RegisterPair register_pair) {
+	return (cpu_state->registers[register_pair] << 8) | cpu_state->registers[register_pair + 1];
+}
+
+void write_register_pair(CpuState* cpu_state, RegisterPair register_pair, uint16_t data) {
+	//TODO - implement when needed
+}
+
 bool get_flag(CpuState* state, uint8_t flag_bit) {
 	return (state->registers[1] >> flag_bit) & 0x1;
 }
@@ -69,6 +77,9 @@ void cpu_cycle(Bus* bus) {
 				break;
 			case 0x2E:
 				cycles = ld_r_n(bus, REGISTER_L);
+				break;
+			case 0x36:
+				cycles = ld_hl_n(bus);
 				break;
 			case 0x3E:
 				cycles = ld_r_n(bus, REGISTER_A);
@@ -292,14 +303,21 @@ int ld_r_n(Bus* bus, uint8_t r1) {
 }
 
 int ld_r_hl(Bus* bus, uint8_t r1) {
-	uint16_t address = (bus->cpu->registers[REGISTER_H] << 8) | bus->cpu->registers[REGISTER_L]; //TODO - maybe needs a helper function?
+	uint16_t address = read_register_pair(bus->cpu, REGISTER_PAIR_HL);
 	bus->cpu->registers[r1] = read_byte(bus, address);
 	return 8;
 }
 
 int ld_hl_r(Bus* bus, uint8_t r1) {
 	uint8_t data = bus->cpu->registers[r1];
-	uint16_t address = (bus->cpu->registers[REGISTER_H] << 8) | bus->cpu->registers[REGISTER_L]; 
+	uint16_t address = read_register_pair(bus->cpu, REGISTER_PAIR_HL);
 	write_byte(bus, address, data);
 	return 8;
+}
+
+int ld_hl_n(Bus* bus) {
+	uint8_t data = fetch8(bus);
+	uint16_t address = read_register_pair(bus->cpu, REGISTER_PAIR_HL);
+	write_byte(bus, address, data);
+	return 12;
 }

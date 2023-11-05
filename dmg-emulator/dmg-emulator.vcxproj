@@ -25,7 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\cpu.h" />
-    <ClCompile Include="src\Bus.h" />
+    <ClInclude Include="src\bus.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
