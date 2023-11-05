@@ -33,36 +33,38 @@ typedef struct {
 	uint8_t registers[NUMBER_OF_GENERAL_REGISTERS];
 	uint16_t sp;
 
+	Bus* bus;
+
 	uint8_t instructionCycleCount;
 	uint8_t elapsedInstructionCycles;
-} CpuState;
+} Cpu;
 
-void initialise_cpu_state(CpuState* cpu_state);
+void initialise_cpu(Cpu* cpu);
 
-void free_cpu_state(CpuState* cpu_state);
+void free_cpu(Cpu* cpu);
 
-uint8_t fetch8(Bus* bus);
+uint8_t fetch8(Cpu* cpu);
 
-uint16_t fetch16(Bus* bus); //Little endian format
+uint16_t fetch16(Cpu* bcpuus); //Little endian format
 
-uint16_t read_register_pair(CpuState* cpu_state, RegisterPair register_pair);
+uint16_t read_register_pair(Cpu* cpu, RegisterPair register_pair);
 
-void write_register_pair(CpuState* cpu_state, RegisterPair register_pair, uint16_t data);
+void write_register_pair(Cpu* cpu, RegisterPair register_pair, uint16_t data);
 
-bool get_flag(CpuState* state, uint8_t flag_bit);
+bool get_flag(Cpu* cpu, uint8_t flag_bit);
 
-void set_flag(CpuState* state, uint8_t flag_bit, bool is_set);
+void set_flag(Cpu* cpu, uint8_t flag_bit, bool is_set);
 
-void cpu_cycle(Bus* bus);
+void cpu_cycle(Cpu* cpu);
 
 int nop();
 
-int ld_r_r(Bus* bus, uint8_t r1, uint8_t r2);
+int ld_r_r(Cpu* cpu_state, uint8_t r1, uint8_t r2);
 
-int ld_r_n(Bus* bus, uint8_t r1);
+int ld_r_n(Cpu* cpu_state, uint8_t r1);
 
-int ld_r_hl(Bus* bus, uint8_t r1);
+int ld_r_hl(Cpu* cpu_state, uint8_t r1);
 
-int ld_hl_r(Bus* bus, uint8_t r1);
+int ld_hl_r(Cpu* cpu_state, uint8_t r1);
 
-int ld_hl_n(Bus* bus);
+int ld_hl_n(Cpu* cpu);

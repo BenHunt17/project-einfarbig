@@ -4,19 +4,10 @@
 #include "bus.h"
 
 void initialise_bus(Bus* bus) {
-	CpuState* cpu_state = malloc(sizeof(CpuState));
-	if (cpu_state == NULL) {
-		printf("Error: Could not allocate memory for the cpuState");
-		exit(EXIT_FAILURE);
-	}
-
-	initialise_cpu_state(cpu_state);
-
-	bus->cpu = cpu_state;
+	//TODO - review
 }
 
 void free_bus(Bus* bus) {
-	free_cpu_state(bus->cpu);
 	free(bus);
 }
 
