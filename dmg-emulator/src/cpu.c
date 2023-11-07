@@ -65,11 +65,17 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x06:
 				cycles = ld_r_n(cpu, REGISTER_B);
 				break;
+			case 0x0A:
+				cycles = ld_a_bc(cpu);
+				break;
 			case 0x0E:
 				cycles = ld_r_n(cpu, REGISTER_C);
 				break;
 			case 0x16:
 				cycles = ld_r_n(cpu, REGISTER_D);
+				break;
+			case 0x1A:
+				cycles = ld_a_de(cpu);
 				break;
 			case 0x1E:
 				cycles = ld_r_n(cpu, REGISTER_E);
@@ -275,6 +281,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x7F:
 				cycles = ld_r_r(cpu, REGISTER_A, REGISTER_A);
 				break;
+			case 0xF2:
+				cycles = ld_a_c(cpu);
+				break;
 			//TODO - implement all
 		}
 
@@ -322,4 +331,22 @@ int ld_hl_n(Cpu* cpu) {
 	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
 	write_byte(cpu->bus, address, data);
 	return 12;
+}
+
+int ld_a_bc(Cpu* cpu) {
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_BC);
+	cpu->registers[REGISTER_A] = read_byte(cpu->bus, address);
+	return 8;
+}
+
+int ld_a_de(Cpu* cpu) {
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_DE);
+	cpu->registers[REGISTER_A] = read_byte(cpu->bus, address);
+	return 8;
+}
+
+int ld_a_c(Cpu* cpu) {
+	uint16_t address = 0xFF00 & cpu->registers[REGISTER_C];
+	cpu->registers[REGISTER_A] = read_byte(cpu->bus, address);
+	return 8;
 }

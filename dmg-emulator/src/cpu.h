@@ -68,3 +68,9 @@ int ld_r_hl(Cpu* cpu_state, uint8_t r1);
 int ld_hl_r(Cpu* cpu_state, uint8_t r1);
 
 int ld_hl_n(Cpu* cpu);
+
+int ld_a_bc(Cpu* cpu);
+
+int ld_a_de(Cpu* cpu);
+
+int ld_a_c(Cpu* cpu);
