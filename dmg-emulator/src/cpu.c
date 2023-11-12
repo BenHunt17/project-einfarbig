@@ -20,14 +20,12 @@ void free_cpu(Cpu* cpu) {
 uint8_t fetch8(Cpu* cpu) {
 	uint8_t byte = read_byte(cpu->bus, cpu->pc);
 	cpu->pc++;
-
 	return byte;
 }
 
 uint16_t fetch16(Cpu* cpu) {
 	uint8_t low_byte = fetch8(cpu);
 	uint8_t high_byte = fetch8(cpu);
-
 	return (high_byte << 8) | low_byte;
 }
 
@@ -35,8 +33,9 @@ uint16_t read_register_pair(Cpu* cpu, RegisterPair register_pair) {
 	return (cpu->registers[register_pair] << 8) | cpu->registers[register_pair + 1];
 }
 
-void write_register_pair(Cpu* Cpu, RegisterPair register_pair, uint16_t data) {
-	//TODO - implement when needed
+void write_register_pair(Cpu* cpu, RegisterPair register_pair, uint16_t data) {
+	cpu->registers[register_pair] = (uint8_t)((data >> 8) | 0x00FF);
+	cpu->registers[register_pair + 1] = (uint8_t)(data | 0x00FF);
 }
 
 bool get_flag(Cpu* state, uint8_t flag_bit) {
@@ -62,6 +61,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x00:
 				cycles = nop();
 				break;
+			case 0x02:
+				cycles = ld_bc_a(cpu);
+				break;
 			case 0x06:
 				cycles = ld_r_n(cpu, REGISTER_B);
 				break;
@@ -70,6 +72,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x0E:
 				cycles = ld_r_n(cpu, REGISTER_C);
+				break;
+			case 0x12:
+				cycles = ld_de_a(cpu);
 				break;
 			case 0x16:
 				cycles = ld_r_n(cpu, REGISTER_D);
@@ -80,14 +85,26 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x1E:
 				cycles = ld_r_n(cpu, REGISTER_E);
 				break;
+			case 0x22:
+				cycles = ldi_hl_a(cpu);
+				break;
 			case 0x26:
 				cycles = ld_r_n(cpu, REGISTER_H);
+				break;
+			case 0x2A:
+				cycles = ldi_a_hl(cpu);
 				break;
 			case 0x2E:
 				cycles = ld_r_n(cpu, REGISTER_L);
 				break;
+			case 0x32:
+				cycles = ldd_hl_a(cpu);
+				break;
 			case 0x36:
 				cycles = ld_hl_n(cpu);
+				break;
+			case 0x3A:
+				cycles = ldd_a_hl(cpu);
 				break;
 			case 0x3E:
 				cycles = ld_r_n(cpu, REGISTER_A);
@@ -281,8 +298,23 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x7F:
 				cycles = ld_r_r(cpu, REGISTER_A, REGISTER_A);
 				break;
+			case 0xE0:
+				cycles = ld_n_a(cpu);
+				break;
+			case 0xE2:
+				cycles = ld_c_a(cpu);
+				break;
+			case 0xEA:
+				cycles = ld_nn_a(cpu);
+				break;
+			case 0xF0:
+				cycles = ld_a_n(cpu);
+				break;
 			case 0xF2:
 				cycles = ld_a_c(cpu);
+				break;
+			case 0xFA:
+				cycles = ld_a_nn(cpu);
 				break;
 			//TODO - implement all
 		}
@@ -349,4 +381,79 @@ int ld_a_c(Cpu* cpu) {
 	uint16_t address = 0xFF00 & cpu->registers[REGISTER_C];
 	cpu->registers[REGISTER_A] = read_byte(cpu->bus, address);
 	return 8;
+}
+
+int ld_c_a(Cpu* cpu) {
+	uint8_t data = cpu->registers[REGISTER_A];
+	uint16_t address = 0xFF00 & cpu->registers[REGISTER_C];
+	write_byte(cpu->bus, address, data);
+	return 8;
+}
+
+int ld_a_n(Cpu* cpu) {
+	uint16_t address = 0xFF00 & fetch8(cpu);
+	cpu->registers[REGISTER_A] = read_byte(cpu->bus, address);
+	return 12;
+}
+
+int ld_n_a(Cpu* cpu) {
+	uint8_t data = cpu->registers[REGISTER_A];
+	uint16_t address = 0xFF00 & fetch8(cpu);
+	write_byte(cpu->bus, address, data);
+	return 12;
+}
+
+int ld_a_nn(Cpu* cpu) {
+	uint16_t address = fetch16(cpu);
+	cpu->registers[REGISTER_A] = read_byte(cpu->bus, address);
+	return 16;
+}
+
+int ld_nn_a(Cpu* cpu) {
+	uint8_t data = cpu->registers[REGISTER_A];
+	uint16_t address = fetch16(cpu);
+	write_byte(cpu->bus, address, data);
+	return 16;
+}
+
+int ldi_a_hl(Cpu* cpu) {
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
+	cpu->registers[REGISTER_A] = read_byte(cpu->bus, address);
+	write_register_pair(cpu, REGISTER_PAIR_HL, address + 1);
+	return 8;
+}
+
+int ldd_a_hl(Cpu* cpu) {
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
+	cpu->registers[REGISTER_A] = read_byte(cpu->bus, address);
+	write_register_pair(cpu, REGISTER_PAIR_HL, address - 1);
+	return 8;
+}
+
+int ld_bc_a(Cpu* cpu) {
+	uint8_t data = cpu->registers[REGISTER_A];
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_BC);
+	write_byte(cpu->bus, address, data);
+	return 8;
+}
+
+int ld_de_a(Cpu* cpu) {
+	uint8_t data = cpu->registers[REGISTER_A];
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_DE);
+	write_byte(cpu->bus, address, data);
+	return 8;
+}
+
+int ldi_hl_a(Cpu* cpu) {
+	uint8_t data = cpu->registers[REGISTER_A];
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
+	write_byte(cpu->bus, address, data);
+	write_register_pair(cpu, REGISTER_PAIR_HL, address + 1);
+}
+
+int ldd_hl_a(Cpu* cpu) {
+	uint8_t data = cpu->registers[REGISTER_A];
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
+	write_byte(cpu->bus, address, data);
+	write_register_pair(cpu, REGISTER_PAIR_HL, address - 1);
 }
