@@ -61,6 +61,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x00:
 				cycles = nop();
 				break;
+			case 0x01:
+				cycles = ld_rr_nn(cpu, REGISTER_PAIR_BC);
+				break;
 			case 0x02:
 				cycles = ld_bc_a(cpu);
 				break;
@@ -72,6 +75,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x0E:
 				cycles = ld_r_n(cpu, REGISTER_C);
+				break;
+			case 0x11:
+				cycles = ld_rr_nn(cpu, REGISTER_PAIR_DE);
 				break;
 			case 0x12:
 				cycles = ld_de_a(cpu);
@@ -85,6 +91,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x1E:
 				cycles = ld_r_n(cpu, REGISTER_E);
 				break;
+			case 0x21:
+				cycles = ld_rr_nn(cpu, REGISTER_PAIR_HL);
+				break;
 			case 0x22:
 				cycles = ldi_hl_a(cpu);
 				break;
@@ -96,6 +105,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x2E:
 				cycles = ld_r_n(cpu, REGISTER_L);
+				break;
+			case 0x31:
+				cycles = ld_rr_nn(cpu, NULL);
 				break;
 			case 0x32:
 				cycles = ldd_hl_a(cpu);
@@ -449,6 +461,7 @@ int ldi_hl_a(Cpu* cpu) {
 	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
 	write_byte(cpu->bus, address, data);
 	write_register_pair(cpu, REGISTER_PAIR_HL, address + 1);
+	return 8;
 }
 
 int ldd_hl_a(Cpu* cpu) {
@@ -456,4 +469,17 @@ int ldd_hl_a(Cpu* cpu) {
 	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
 	write_byte(cpu->bus, address, data);
 	write_register_pair(cpu, REGISTER_PAIR_HL, address - 1);
+	return 8;
+}
+
+int ld_rr_nn(Cpu* cpu, uint8_t rp) {
+	uint16_t data = fetch16(cpu);
+	if (rp != NULL) {
+		write_register_pair(cpu, rp, data);
+	}
+	else {
+		//Assume null register pair value means SP
+		cpu->sp = data;
+	}
+	return 12;
 }

@@ -98,3 +98,7 @@ int ld_de_a(Cpu* cpu);
 int ldi_hl_a(Cpu* cpu);
 
 int ldd_a_hl(Cpu* cpu);
+
+//16 bit load instructions
+
+int ld_rr_nn(Cpu* cpu, uint8_t rp);
