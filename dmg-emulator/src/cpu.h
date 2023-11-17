@@ -102,3 +102,7 @@ int ldd_a_hl(Cpu* cpu);
 //16 bit load instructions
 
 int ld_rr_nn(Cpu* cpu, uint8_t rp);
+
+int ld_sp_hl(Cpu* cpu);
+
+int push_rr(Cpu* cpu, uint8_t rp);
