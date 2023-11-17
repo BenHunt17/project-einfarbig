@@ -106,3 +106,11 @@ int ld_rr_nn(Cpu* cpu, uint8_t rp);
 int ld_sp_hl(Cpu* cpu);
 
 int push_rr(Cpu* cpu, uint8_t rp);
+
+int pop_rr(Cpu* cpu, uint8_t rp);
+
+int ld_nn_sp(Cpu* cpu);
+
+//16-bit Arithmetic/Logic instructions
+
+int ld_hl_sp_dd(Cpu* cpu); //TODO - This is grouped with the load instructions in the manual. THe pan docs specifies them in arithmetic so I will too. Just a reminder to look back to ld when I get to this

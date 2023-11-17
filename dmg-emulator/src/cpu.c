@@ -70,6 +70,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x06:
 				cycles = ld_r_n(cpu, REGISTER_B);
 				break;
+			case 0x08:
+				cycles = ld_nn_sp(cpu);
+				break;
 			case 0x0A:
 				cycles = ld_a_bc(cpu);
 				break;
@@ -310,14 +313,23 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x7F:
 				cycles = ld_r_r(cpu, REGISTER_A, REGISTER_A);
 				break;
+			case 0xC1:
+				cycles = pop_rr(cpu, REGISTER_PAIR_BC);
+				break;
 			case 0xC5:
 				cycles = push_rr(cpu, REGISTER_PAIR_BC);
+				break;
+			case 0xD1:
+				cycles = pop_rr(cpu, REGISTER_PAIR_DE);
 				break;
 			case 0xD5:
 				cycles = push_rr(cpu, REGISTER_PAIR_DE);
 				break;
 			case 0xE0:
 				cycles = ld_n_a(cpu);
+				break;
+			case 0xE1:
+				cycles = pop_rr(cpu, REGISTER_PAIR_HL);
 				break;
 			case 0xE2:
 				cycles = ld_c_a(cpu);
@@ -330,6 +342,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0xF0:
 				cycles = ld_a_n(cpu);
+				break;
+			case 0xF1:
+				cycles = pop_rr(cpu, REGISTER_PAIR_AF);
 				break;
 			case 0xF2:
 				cycles = ld_a_c(cpu);
@@ -509,4 +524,18 @@ int push_rr(Cpu* cpu, uint8_t rp) {
 	write_word(cpu->bus, cpu->sp - 2, data);
 	cpu->sp -= 2;
 	return 16;
+}
+
+int pop_rr(Cpu* cpu, uint8_t rp) {
+	uint16_t data = read_word(cpu->bus, cpu->sp);
+	write_register_pair(cpu, rp, data);
+	cpu->sp += 2;
+	return 12;
+}
+
+int ld_nn_sp(Cpu* cpu) {
+	uint16_t data = cpu->sp;
+	uint16_t address = fetch16(cpu);
+	write_word(cpu->bus, address, data);
+	return 20;
 }

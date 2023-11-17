@@ -46,14 +46,16 @@ void write_byte(Bus* bus, uint16_t address, uint8_t data) {
 }
 
 uint16_t read_word(Bus* bus, uint16_t address) {
-	//TODO - implement when needed
-	return 0;
+	//TODO - memory map logic. for now assume address is in main memory
+	uint8_t lo = bus->ram[address];
+	uint8_t hi = bus->ram[address + 1];
+	return (hi << 8) | lo;
 }
 
 void write_word(Bus* bus, uint16_t address, uint16_t data) {
 	//TODO - memory map logic. for now assume address is in main memory
-	uint8_t hi = (uint8_t)((data >> 8) | 0xFF);
 	uint8_t lo = (uint8_t)(data | 0xFF);
+	uint8_t hi = (uint8_t)((data >> 8) | 0xFF);
 	bus->ram[address] = lo;
 	bus->ram[address + 1] = hi;
 }
