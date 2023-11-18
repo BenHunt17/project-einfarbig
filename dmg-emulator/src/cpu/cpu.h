@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "bus.h"
+#include "../bus.h"
 
 #define NUMBER_OF_GENERAL_REGISTERS 8
 
@@ -56,61 +56,3 @@ bool get_flag(Cpu* cpu, uint8_t flag_bit);
 void set_flag(Cpu* cpu, uint8_t flag_bit, bool is_set);
 
 void cpu_cycle(Cpu* cpu);
-
-int nop();
-
-//8 bit load instructions
-
-int ld_r_r(Cpu* cpu_state, uint8_t r1, uint8_t r2);
-
-int ld_r_n(Cpu* cpu_state, uint8_t r1);
-
-int ld_r_hl(Cpu* cpu_state, uint8_t r1);
-
-int ld_hl_r(Cpu* cpu_state, uint8_t r1);
-
-int ld_hl_n(Cpu* cpu);
-
-int ld_a_bc(Cpu* cpu);
-
-int ld_a_de(Cpu* cpu);
-
-int ld_a_c(Cpu* cpu);
-
-int ld_c_a(Cpu* cpu);
-
-int ld_a_n(Cpu* cpu);
-
-int ld_n_a(Cpu* cpu);
-
-int ld_a_nn(Cpu* cpu);
-
-int ld_nn_a(Cpu* cpu);
-
-int ldi_a_hl(Cpu* cpu);
-
-int ldd_a_hl(Cpu* cpu);
-
-int ld_bc_a(Cpu* cpu);
-
-int ld_de_a(Cpu* cpu);
-
-int ldi_hl_a(Cpu* cpu);
-
-int ldd_a_hl(Cpu* cpu);
-
-//16 bit load instructions
-
-int ld_rr_nn(Cpu* cpu, uint8_t rp);
-
-int ld_sp_hl(Cpu* cpu);
-
-int push_rr(Cpu* cpu, uint8_t rp);
-
-int pop_rr(Cpu* cpu, uint8_t rp);
-
-int ld_nn_sp(Cpu* cpu);
-
-//16-bit Arithmetic/Logic instructions
-
-int ld_hl_sp_dd(Cpu* cpu); //TODO - This is grouped with the load instructions in the manual. THe pan docs specifies them in arithmetic so I will too. Just a reminder to look back to ld when I get to this

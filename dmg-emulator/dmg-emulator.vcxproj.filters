@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\cpu\cpu.c" />
+    <ClCompile Include="src\main.c" />
+    <ClCompile Include="src\bus.c" />
+    <ClCompile Include="src\cpu\8_bit_load_instructions.c" />
+    <ClCompile Include="src\cpu\16_bit_load_instructions.c" />
+    <ClCompile Include="src\cpu\control_instructions.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\cpu\cpu.h" />
+    <ClInclude Include="src\bus.h" />
+    <ClInclude Include="src\cpu\8_bit_load_instructions.h" />
+    <ClInclude Include="src\cpu\16_bit_load_instructions.h" />
+    <ClInclude Include="src\cpu\8_bit_arithmetic_logic_instructions.h" />
+    <ClInclude Include="src\cpu\control_instructions.h" />
+  </ItemGroup>
+</Project>
