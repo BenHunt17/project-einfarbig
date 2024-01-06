@@ -2,13 +2,13 @@
 
 #include "cpu.h"
 
-int ld_r_r(Cpu* cpu_state, uint8_t r1, uint8_t r2);
+int ld_r_r(Cpu* cpu, uint8_t r1, uint8_t r2);
 
-int ld_r_n(Cpu* cpu_state, uint8_t r1);
+int ld_r_n(Cpu* cpu, uint8_t r1);
 
-int ld_r_hl(Cpu* cpu_state, uint8_t r1);
+int ld_r_hl(Cpu* cpu, uint8_t r1);
 
-int ld_hl_r(Cpu* cpu_state, uint8_t r1);
+int ld_hl_r(Cpu* cpu, uint8_t r1);
 
 int ld_hl_n(Cpu* cpu);
 

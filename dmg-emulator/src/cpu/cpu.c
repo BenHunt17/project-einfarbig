@@ -39,8 +39,8 @@ uint16_t read_register_pair(Cpu* cpu, RegisterPair register_pair) {
 }
 
 void write_register_pair(Cpu* cpu, RegisterPair register_pair, uint16_t data) {
-	cpu->registers[register_pair] = (uint8_t)((data >> 8) | 0x00FF);
-	cpu->registers[register_pair + 1] = (uint8_t)(data | 0x00FF);
+	cpu->registers[register_pair] = (uint8_t)((data >> 8) & 0xff);
+	cpu->registers[register_pair + 1] = (uint8_t)(data & 0xff);
 }
 
 bool get_flag(Cpu* state, uint8_t flag_bit) {

@@ -22,7 +22,10 @@ uint8_t read_byte(Bus* bus, uint16_t address) {
 		//TODO - implement video ram
 	}
 	else if (address <= 0xbfff) {
-		uint16_t mapped_address = address - 0xa000;
+		//TODO - impelement external ram
+	}
+	else if (address <= 0xdfff) {
+		uint16_t mapped_address = address - 0xc000;
 		return bus->ram[mapped_address];
 	}
 	//TODO - implement rest of memory map
@@ -39,7 +42,10 @@ void write_byte(Bus* bus, uint16_t address, uint8_t data) {
 		//TODO - implement video ram
 	}
 	else if (address <= 0xbfff) {
-		uint16_t mapped_address = address - 0xa000;
+		//TODO - impelement external ram
+	}
+	else if (address <= 0xdfff) {
+		uint16_t mapped_address = address - 0xc000;
 		bus->ram[mapped_address] = data;
 	}
 	//TODO - implement rest of memory map
