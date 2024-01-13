@@ -11,6 +11,7 @@ Cpu* SetUpMockCpu(uint8_t* program, int programSize) {
 	}
 	cpu->bus = bus;
 	cpu->pc = 0xc000;
+	cpu->sp = 0xce00;
 
 	return cpu;
 }
