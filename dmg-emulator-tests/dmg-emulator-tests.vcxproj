@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="unit\cpu\16_bit_load_instruction_tests.cpp" />
+    <ClCompile Include="unit\cpu\8_bit_arithmetic_logic_instruction_tests.cpp" />
     <ClCompile Include="unit\cpu\8_bit_load_instruction_tests.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

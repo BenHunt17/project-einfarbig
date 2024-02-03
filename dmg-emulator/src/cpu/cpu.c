@@ -318,6 +318,27 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x7F:
 				cycles = ld_r_r(cpu, REGISTER_A, REGISTER_A);
 				break;
+			case 0x80:
+				cycles = add_a_r(cpu, REGISTER_B);
+				break;
+			case 0x81:
+				cycles = add_a_r(cpu, REGISTER_C);
+				break;
+			case 0x82:
+				cycles = add_a_r(cpu, REGISTER_D);
+				break;
+			case 0x83:
+				cycles = add_a_r(cpu, REGISTER_E);
+				break;
+			case 0x84:
+				cycles = add_a_r(cpu, REGISTER_H);
+				break;
+			case 0x85:
+				cycles = add_a_r(cpu, REGISTER_L);
+				break;
+			case 0x87:
+				cycles = add_a_r(cpu, REGISTER_A);
+				break;
 			case 0xC1:
 				cycles = pop_rr(cpu, REGISTER_PAIR_BC);
 				break;
