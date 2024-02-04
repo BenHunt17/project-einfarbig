@@ -45,7 +45,7 @@ void free_cpu(Cpu* cpu);
 
 uint8_t fetch8(Cpu* cpu);
 
-uint16_t fetch16(Cpu* bcpuus); //Little endian format
+uint16_t fetch16(Cpu* cpu); //Little endian format
 
 uint16_t read_register_pair(Cpu* cpu, RegisterPair register_pair);
 
