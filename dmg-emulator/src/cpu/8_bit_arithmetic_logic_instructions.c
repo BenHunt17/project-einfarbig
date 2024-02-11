@@ -136,3 +136,43 @@ int sub_a_hl(Cpu* cpu) {
 
 	return 8;
 }
+
+int sbc_a_r(Cpu* cpu, uint8_t r1) {
+	uint8_t a = cpu->registers[REGISTER_A];
+	uint8_t r = cpu->registers[r1];
+	uint8_t cy = get_flag(cpu, CARRY_FLAG_BIT);
+
+	uint8_t result = a - r - cy;
+	cpu->registers[REGISTER_A] = result;
+
+	sub_update_flags(cpu, a, r, cy, result);
+
+	return 4;
+}
+
+int sbc_a_n(Cpu* cpu) {
+	uint8_t a = cpu->registers[REGISTER_A];
+	uint8_t data = fetch8(cpu);
+	uint8_t cy = get_flag(cpu, CARRY_FLAG_BIT);
+
+	uint8_t result = a - data - cy;
+	cpu->registers[REGISTER_A] = result;
+
+	sub_update_flags(cpu, a, data, cy, result);
+
+	return 8;
+}
+
+int sbc_a_hl(Cpu* cpu) {
+	uint8_t a = cpu->registers[REGISTER_A];
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
+	uint8_t data = read_byte(cpu->bus, address);
+	uint8_t cy = get_flag(cpu, CARRY_FLAG_BIT);
+
+	uint8_t result = a - data - cy;
+	cpu->registers[REGISTER_A] = result;
+
+	sub_update_flags(cpu, a, data, cy, result);
+
+	return 8;
+}

@@ -166,3 +166,55 @@ TEST(eight_bit_arithmetic_logic_instruction_tests, sub_a_hl) {
 
 	FreeMockCpu(cpu);
 }
+
+TEST(eight_bit_arithmetic_logic_instruction_tests, sbc_a_r) {
+	Cpu* cpu = SetUpMockCpu(NULL, 0);
+
+	cpu->registers[REGISTER_A] = 0x3b;
+	cpu->registers[REGISTER_B] = 0x2a;
+	set_flag(cpu, CARRY_FLAG_BIT, true);
+	sbc_a_r(cpu, REGISTER_B);
+
+	EXPECT_EQ(cpu->registers[REGISTER_A], 0x10);
+	EXPECT_EQ(get_flag(cpu, ZERO_FLAG_BIT), 0);
+	EXPECT_EQ(get_flag(cpu, HALF_CARRY_FLAG_BIT), 0);
+	EXPECT_EQ(get_flag(cpu, SUBTRACTION_FLAG_BIT), 1);
+	EXPECT_EQ(get_flag(cpu, CARRY_FLAG_BIT), 0);
+
+	FreeMockCpu(cpu);
+}
+
+TEST(eight_bit_arithmetic_logic_instruction_tests, sbc_a_n) {
+	uint8_t program[] = { 0x3a, 0x00 };
+	Cpu* cpu = SetUpMockCpu(program, 2);
+
+	cpu->registers[REGISTER_A] = 0x3b;
+	set_flag(cpu, CARRY_FLAG_BIT, true);
+	sbc_a_n(cpu);
+
+	EXPECT_EQ(cpu->registers[REGISTER_A], 0x0);
+	EXPECT_EQ(get_flag(cpu, ZERO_FLAG_BIT), 1);
+	EXPECT_EQ(get_flag(cpu, HALF_CARRY_FLAG_BIT), 0);
+	EXPECT_EQ(get_flag(cpu, SUBTRACTION_FLAG_BIT), 1);
+	EXPECT_EQ(get_flag(cpu, CARRY_FLAG_BIT), 0);
+
+	FreeMockCpu(cpu);
+}
+
+TEST(eight_bit_arithmetic_logic_instruction_tests, sbc_a_hl) {
+	uint8_t program[] = { 0x00, 0x00, 0x00, 0x00, 0x4f, 0x00 };
+	Cpu* cpu = SetUpMockCpu(program, 6);
+
+	cpu->registers[REGISTER_A] = 0x3b;
+	write_register_pair(cpu, REGISTER_PAIR_HL, 0xc004);
+	set_flag(cpu, CARRY_FLAG_BIT, true);
+	sbc_a_hl(cpu);
+
+	EXPECT_EQ(cpu->registers[REGISTER_A], 0xeb);
+	EXPECT_EQ(get_flag(cpu, ZERO_FLAG_BIT), 0);
+	EXPECT_EQ(get_flag(cpu, HALF_CARRY_FLAG_BIT), 1);
+	EXPECT_EQ(get_flag(cpu, SUBTRACTION_FLAG_BIT), 1);
+	EXPECT_EQ(get_flag(cpu, CARRY_FLAG_BIT), 1);
+
+	FreeMockCpu(cpu);
+}
