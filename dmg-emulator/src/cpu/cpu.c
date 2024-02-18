@@ -414,10 +414,34 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x9f:
 				cycles = sbc_a_r(cpu, REGISTER_A);
 				break;
-			case 0xC1:
+			case 0xa0:
+				cycles = and_a_r(cpu, REGISTER_B);
+				break;
+			case 0xa1:
+				cycles = and_a_r(cpu, REGISTER_C);
+				break;
+			case 0xa2:
+				cycles = and_a_r(cpu, REGISTER_D);
+				break;
+			case 0xa3:
+				cycles = and_a_r(cpu, REGISTER_E);
+				break;
+			case 0xa4:
+				cycles = and_a_r(cpu, REGISTER_H);
+				break;
+			case 0xa5:
+				cycles = and_a_r(cpu, REGISTER_L);
+				break;
+			case 0xa6:
+				cycles = and_a_hl(cpu);
+				break;
+			case 0xa7:
+				cycles = and_a_r(cpu, REGISTER_A);
+				break;
+			case 0xc1:
 				cycles = pop_rr(cpu, REGISTER_PAIR_BC);
 				break;
-			case 0xC5:
+			case 0xc5:
 				cycles = push_rr(cpu, REGISTER_PAIR_BC);
 				break;
 			case 0xc6:
@@ -449,6 +473,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0xe5:
 				cycles = push_rr(cpu, REGISTER_PAIR_HL);
+				break;
+			case 0xe6:
+				cycles = and_a_n(cpu);
 				break;
 			case 0xeA:
 				cycles = ld_nn_a(cpu);
