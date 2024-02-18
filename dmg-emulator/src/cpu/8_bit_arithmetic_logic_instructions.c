@@ -31,6 +31,7 @@ void and_update_flags(Cpu* cpu, uint8_t result) {
 }
 
 void or_update_flags(Cpu* cpu, uint8_t result) {
+	//Same logic for xor too
 	set_flag(cpu, ZERO_FLAG_BIT, result == 0x0);
 	set_flag(cpu, HALF_CARRY_FLAG_BIT, 0x0);
 	set_flag(cpu, SUBTRACTION_FLAG_BIT, 0x0);
@@ -258,6 +259,43 @@ int or_a_n(Cpu* cpu) {
 	uint8_t data = fetch8(cpu);
 
 	uint8_t result = a | data;
+	cpu->registers[REGISTER_A] = result;
+
+	or_update_flags(cpu, result);
+
+	return 8;
+}
+
+int xor_a_r(Cpu* cpu, uint8_t r1) {
+	uint8_t a = cpu->registers[REGISTER_A];
+	uint8_t r = cpu->registers[r1];
+
+	uint8_t result = a ^ r;
+	cpu->registers[REGISTER_A] = result;
+
+	or_update_flags(cpu, result);
+
+	return 4;
+}
+
+int xor_a_hl(Cpu* cpu) {
+	uint8_t a = cpu->registers[REGISTER_A];
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
+	uint8_t data = read_byte(cpu->bus, address);
+
+	uint8_t result = a ^ data;
+	cpu->registers[REGISTER_A] = result;
+
+	or_update_flags(cpu, result);
+
+	return 8;
+}
+
+int xor_a_n(Cpu* cpu) {
+	uint8_t a = cpu->registers[REGISTER_A];
+	uint8_t data = fetch8(cpu);
+
+	uint8_t result = a ^ data;
 	cpu->registers[REGISTER_A] = result;
 
 	or_update_flags(cpu, result);
