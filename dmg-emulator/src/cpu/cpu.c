@@ -438,6 +438,30 @@ void cpu_cycle(Cpu* cpu) {
 			case 0xa7:
 				cycles = and_a_r(cpu, REGISTER_A);
 				break;
+			case 0xb0:
+				cycles = or_a_r(cpu, REGISTER_B);
+				break;
+			case 0xb1:
+				cycles = or_a_r(cpu, REGISTER_C);
+				break;
+			case 0xb2:
+				cycles = or_a_r(cpu, REGISTER_D);
+				break;
+			case 0xb3:
+				cycles = or_a_r(cpu, REGISTER_E);
+				break;
+			case 0xb4:
+				cycles = or_a_r(cpu, REGISTER_H);
+				break;
+			case 0xb5:
+				cycles = or_a_r(cpu, REGISTER_L);
+				break;
+			case 0xb6:
+				cycles = or_a_hl(cpu);
+				break;
+			case 0xb7:
+				cycles = or_a_r(cpu, REGISTER_A);
+				break;
 			case 0xc1:
 				cycles = pop_rr(cpu, REGISTER_PAIR_BC);
 				break;
@@ -491,6 +515,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0xf5:
 				cycles = push_rr(cpu, REGISTER_PAIR_AF);
+				break;
+			case 0xf6:
+				cycles = or_a_n(cpu);
 				break;
 			case 0xf9:
 				cycles = ld_sp_hl(cpu);
