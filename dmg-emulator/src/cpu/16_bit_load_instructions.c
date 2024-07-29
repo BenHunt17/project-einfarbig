@@ -37,3 +37,15 @@ int ld_nn_sp(Cpu* cpu) {
 	write_word(cpu->bus, address, data);
 	return 20;
 }
+
+int ld_hl_sp_e(Cpu* cpu) {
+	int8_t data = fetch8(cpu);
+	write_register_pair(cpu, REGISTER_PAIR_HL, data + cpu->sp);
+
+	set_flag(cpu, ZERO_FLAG_BIT, 0x0);
+	set_flag(cpu, HALF_CARRY_FLAG_BIT, ((data & 0xfff) + (cpu->sp & 0xfff)) > 0xfff);
+	set_flag(cpu, SUBTRACTION_FLAG_BIT, 0x0);
+	set_flag(cpu, CARRY_FLAG_BIT, data + cpu->sp > 0xffff);
+
+	return 12;
+}

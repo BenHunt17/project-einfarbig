@@ -546,6 +546,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0xf6:
 				cycles = or_a_n(cpu);
 				break;
+			case 0xf8:
+				cycles = ld_hl_sp_e(cpu);
+				break;
 			case 0xf9:
 				cycles = ld_sp_hl(cpu);
 				break;

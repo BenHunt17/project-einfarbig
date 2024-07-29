@@ -73,3 +73,20 @@ TEST(sixteen_bit_load_instruction_tests, ld_nn_sp) {
 
 	FreeMockCpu(cpu);
 }
+
+TEST(sixteen_bit_load_instruction_tests, ld_hl_sp_e) {
+	uint8_t program[] = { 0x02, 0xc0, 0x00, 0x00, 0x00, 0x00 };
+	Cpu* cpu = SetUpMockCpu(program, 6);
+
+	cpu->sp = 0xfff8;
+	ld_hl_sp_e(cpu);
+
+	EXPECT_EQ(cpu->registers[REGISTER_H], 0xff);
+	EXPECT_EQ(cpu->registers[REGISTER_L], 0xfa);
+	EXPECT_EQ(get_flag(cpu, ZERO_FLAG_BIT), 0x0);
+	EXPECT_EQ(get_flag(cpu, HALF_CARRY_FLAG_BIT), 0x0);
+	EXPECT_EQ(get_flag(cpu, SUBTRACTION_FLAG_BIT), 0x0);
+	EXPECT_EQ(get_flag(cpu, CARRY_FLAG_BIT), 0x0);
+
+	FreeMockCpu(cpu);
+}

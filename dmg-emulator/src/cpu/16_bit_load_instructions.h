@@ -11,3 +11,5 @@ int push_rr(Cpu* cpu, uint8_t rp);
 int pop_rr(Cpu* cpu, uint8_t rp);
 
 int ld_nn_sp(Cpu* cpu);
+
+int ld_hl_sp_e(Cpu* cpu);
