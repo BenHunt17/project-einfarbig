@@ -8,6 +8,7 @@
     <ClCompile Include="src\cpu\16_bit_load_instructions.c" />
     <ClCompile Include="src\cpu\control_instructions.c" />
     <ClCompile Include="src\cpu\8_bit_arithmetic_logic_instructions.c" />
+    <ClCompile Include="src\cpu\16_bit_arithmetic_logic_instructions.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\cpu\cpu.h" />
@@ -16,5 +17,6 @@
     <ClInclude Include="src\cpu\16_bit_load_instructions.h" />
     <ClInclude Include="src\cpu\8_bit_arithmetic_logic_instructions.h" />
     <ClInclude Include="src\cpu\control_instructions.h" />
+    <ClInclude Include="src\cpu\16_bit_arithmetic_logic_instructions.h" />
   </ItemGroup>
 </Project>

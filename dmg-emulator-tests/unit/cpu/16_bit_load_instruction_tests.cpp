@@ -81,8 +81,7 @@ TEST(sixteen_bit_load_instruction_tests, ld_hl_sp_e) {
 	cpu->sp = 0xfff8;
 	ld_hl_sp_e(cpu);
 
-	EXPECT_EQ(cpu->registers[REGISTER_H], 0xff);
-	EXPECT_EQ(cpu->registers[REGISTER_L], 0xfa);
+	EXPECT_EQ(read_register_pair(cpu, REGISTER_PAIR_HL), 0xfffa);
 	EXPECT_EQ(get_flag(cpu, ZERO_FLAG_BIT), 0x0);
 	EXPECT_EQ(get_flag(cpu, HALF_CARRY_FLAG_BIT), 0x0);
 	EXPECT_EQ(get_flag(cpu, SUBTRACTION_FLAG_BIT), 0x0);

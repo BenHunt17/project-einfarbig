@@ -2,12 +2,11 @@
 
 int ld_rr_nn(Cpu* cpu, uint8_t rp) {
 	uint16_t data = fetch16(cpu);
-	if (rp != NULL) {
-		write_register_pair(cpu, rp, data);
+	if (rp == REGISTER_PAIR_SP) {
+		cpu->sp = data;
 	}
 	else {
-		//Assume null register pair value means SP
-		cpu->sp = data;
+		write_register_pair(cpu, rp, data);
 	}
 	return 12;
 }

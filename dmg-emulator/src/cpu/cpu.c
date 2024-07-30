@@ -35,12 +35,20 @@ uint16_t fetch16(Cpu* cpu) {
 }
 
 uint16_t read_register_pair(Cpu* cpu, RegisterPair register_pair) {
+	if (register_pair == REGISTER_PAIR_SP) {
+		return cpu->sp;
+	}
 	return (cpu->registers[register_pair] << 8) | cpu->registers[register_pair + 1];
 }
 
 void write_register_pair(Cpu* cpu, RegisterPair register_pair, uint16_t data) {
-	cpu->registers[register_pair] = (uint8_t)((data >> 8) & 0xff);
-	cpu->registers[register_pair + 1] = (uint8_t)(data & 0xff);
+	if (register_pair == REGISTER_PAIR_SP) {
+		cpu->sp = data;
+	}
+	else {
+		cpu->registers[register_pair] = (uint8_t)((data >> 8) & 0xff);
+		cpu->registers[register_pair + 1] = (uint8_t)(data & 0xff);
+	}
 }
 
 bool get_flag(Cpu* state, uint8_t flag_bit) {
@@ -78,6 +86,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x08:
 				cycles = ld_nn_sp(cpu);
 				break;
+			case 0x09:
+				cycles = add_hl_rr(cpu, REGISTER_PAIR_BC);
+				break;
 			case 0x0a:
 				cycles = ld_a_bc(cpu);
 				break;
@@ -92,6 +103,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x16:
 				cycles = ld_r_n(cpu, REGISTER_D);
+				break;
+			case 0x19:
+				cycles = add_hl_rr(cpu, REGISTER_PAIR_DE);
 				break;
 			case 0x1a:
 				cycles = ld_a_de(cpu);
@@ -108,6 +122,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x26:
 				cycles = ld_r_n(cpu, REGISTER_H);
 				break;
+			case 0x29:
+				cycles = add_hl_rr(cpu, REGISTER_PAIR_HL);
+				break;
 			case 0x2a:
 				cycles = ldi_a_hl(cpu);
 				break;
@@ -122,6 +139,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x36:
 				cycles = ld_hl_n(cpu);
+				break;
+			case 0x39:
+				cycles = add_hl_rr(cpu, REGISTER_PAIR_SP);
 				break;
 			case 0x3a:
 				cycles = ldd_a_hl(cpu);
