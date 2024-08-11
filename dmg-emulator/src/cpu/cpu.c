@@ -6,6 +6,7 @@
 #include "16_bit_load_instructions.h"
 #include "8_bit_arithmetic_logic_instructions.h"
 #include "control_instructions.h"
+#include "16_bit_arithmetic_logic_instructions.h"
 
 void initialise_cpu(Cpu* cpu) {
 	cpu->pc = 0x100;
@@ -80,6 +81,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x02:
 				cycles = ld_bc_a(cpu);
 				break;
+			case 0x03:
+				cycles = inc_rr(cpu, REGISTER_PAIR_BC);
+				break;
 			case 0x06:
 				cycles = ld_r_n(cpu, REGISTER_B);
 				break;
@@ -92,6 +96,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x0a:
 				cycles = ld_a_bc(cpu);
 				break;
+			case 0x0b:
+				cycles = dec_rr(cpu, REGISTER_PAIR_BC);
+				break;
 			case 0x0e:
 				cycles = ld_r_n(cpu, REGISTER_C);
 				break;
@@ -100,6 +107,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x12:
 				cycles = ld_de_a(cpu);
+				break;
+			case 0x13:
+				cycles = inc_rr(cpu, REGISTER_PAIR_DE);
 				break;
 			case 0x16:
 				cycles = ld_r_n(cpu, REGISTER_D);
@@ -110,6 +120,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x1a:
 				cycles = ld_a_de(cpu);
 				break;
+			case 0x1b:
+				cycles = dec_rr(cpu, REGISTER_PAIR_DE);
+				break;
 			case 0x1e:
 				cycles = ld_r_n(cpu, REGISTER_E);
 				break;
@@ -118,6 +131,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x22:
 				cycles = ldi_hl_a(cpu);
+				break;
+			case 0x23:
+				cycles = inc_rr(cpu, REGISTER_PAIR_HL);
 				break;
 			case 0x26:
 				cycles = ld_r_n(cpu, REGISTER_H);
@@ -128,14 +144,20 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x2a:
 				cycles = ldi_a_hl(cpu);
 				break;
+			case 0x2b:
+				cycles = dec_rr(cpu, REGISTER_PAIR_HL);
+				break;
 			case 0x2e:
 				cycles = ld_r_n(cpu, REGISTER_L);
 				break;
 			case 0x31:
-				cycles = ld_rr_nn(cpu, NULL);
+				cycles = ld_rr_nn(cpu, REGISTER_PAIR_SP);
 				break;
 			case 0x32:
 				cycles = ldd_hl_a(cpu);
+				break;
+			case 0x33:
+				cycles = inc_rr(cpu, REGISTER_PAIR_SP);
 				break;
 			case 0x36:
 				cycles = ld_hl_n(cpu);
@@ -145,6 +167,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x3a:
 				cycles = ldd_a_hl(cpu);
+				break;
+			case 0x3b:
+				cycles = dec_rr(cpu, REGISTER_PAIR_SP);
 				break;
 			case 0x3e:
 				cycles = ld_r_n(cpu, REGISTER_A);
@@ -544,6 +569,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0xe6:
 				cycles = and_a_n(cpu);
+				break;
+			case 0xe8:
+				cycles = add_sp_e(cpu);
 				break;
 			case 0xea:
 				cycles = ld_nn_a(cpu);

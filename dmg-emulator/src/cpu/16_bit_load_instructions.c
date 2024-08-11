@@ -1,6 +1,6 @@
 #include "16_bit_load_instructions.h"
 
-int ld_rr_nn(Cpu* cpu, uint8_t rp) {
+int ld_rr_nn(Cpu* cpu, RegisterPair rp) {
 	uint16_t data = fetch16(cpu);
 	if (rp == REGISTER_PAIR_SP) {
 		cpu->sp = data;
@@ -16,14 +16,14 @@ int ld_sp_hl(Cpu* cpu) {
 	return 8;
 }
 
-int push_rr(Cpu* cpu, uint8_t rp) {
+int push_rr(Cpu* cpu, RegisterPair rp) {
 	uint16_t data = read_register_pair(cpu, rp);
 	write_word(cpu->bus, cpu->sp - 2, data);
 	cpu->sp -= 2;
 	return 16;
 }
 
-int pop_rr(Cpu* cpu, uint8_t rp) {
+int pop_rr(Cpu* cpu, RegisterPair rp) {
 	uint16_t data = read_word(cpu->bus, cpu->sp);
 	write_register_pair(cpu, rp, data);
 	cpu->sp += 2;
