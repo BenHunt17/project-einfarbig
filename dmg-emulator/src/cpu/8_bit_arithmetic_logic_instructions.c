@@ -302,3 +302,77 @@ int xor_a_n(Cpu* cpu) {
 
 	return 8;
 }
+
+int cp_a_r(Cpu* cpu, uint8_t r1) {
+	uint8_t a = cpu->registers[REGISTER_A];
+	uint8_t data = cpu->registers[r1];
+
+	sub_update_flags(cpu, a, data, 0, a - data);
+
+	return 4;
+}
+
+int cp_a_hl(Cpu* cpu) {
+	uint8_t a = cpu->registers[REGISTER_A];
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
+	uint8_t data = read_byte(cpu->bus, address);
+
+	sub_update_flags(cpu, a, data, 0, a - data);
+
+	return 8;
+}
+
+int cp_a_n(Cpu* cpu) {
+	uint8_t a = cpu->registers[REGISTER_A];
+	uint8_t data = fetch8(cpu);
+
+	sub_update_flags(cpu, a, data, 0, a - data);
+
+	return 8;
+}
+
+int inc_r(Cpu* cpu, uint8_t r1) {
+	uint8_t data = cpu->registers[r1];
+	cpu->registers[r1] = data + 1;
+
+	set_flag(cpu, ZERO_FLAG_BIT, cpu->registers[r1] == 0x0);
+	set_flag(cpu, HALF_CARRY_FLAG_BIT, ((data & 0xf) + 0x1) > 0xf);
+	set_flag(cpu, SUBTRACTION_FLAG_BIT, 0);
+
+	return 4;
+}
+
+int inc_hl(Cpu* cpu) {
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
+	uint8_t data = read_byte(cpu->bus, address);
+	write_byte(cpu->bus, address, data + 1);
+
+	set_flag(cpu, ZERO_FLAG_BIT, read_byte(cpu->bus, address) == 0x0);
+	set_flag(cpu, HALF_CARRY_FLAG_BIT, ((data & 0xf) + 0x1) > 0xf);
+	set_flag(cpu, SUBTRACTION_FLAG_BIT, 0);
+
+	return 12;
+}
+
+int dec_r(Cpu* cpu, uint8_t r1) {
+	uint8_t data = cpu->registers[r1];
+	cpu->registers[r1] = data - 1;
+
+	set_flag(cpu, ZERO_FLAG_BIT, cpu->registers[r1] == 0x0);
+	set_flag(cpu, HALF_CARRY_FLAG_BIT, ((data & 0xf) - 0x1) < 0x0);
+	set_flag(cpu, SUBTRACTION_FLAG_BIT, 1);
+
+	return 4;
+}
+
+int dec_hl(Cpu* cpu) {
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
+	uint8_t data = read_byte(cpu->bus, address);
+	write_byte(cpu->bus, address, data - 1);
+
+	set_flag(cpu, ZERO_FLAG_BIT, read_byte(cpu->bus, address) == 0x0);
+	set_flag(cpu, HALF_CARRY_FLAG_BIT, ((data & 0xf) - 0x1) < 0x0);
+	set_flag(cpu, SUBTRACTION_FLAG_BIT, 1);
+
+	return 12;
+}

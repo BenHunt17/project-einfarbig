@@ -43,3 +43,17 @@ int xor_a_r(Cpu* cpu, uint8_t r1);
 int xor_a_hl(Cpu* cpu);
 
 int xor_a_n(Cpu* cpu);
+
+int cp_a_r(Cpu* cpu, uint8_t r1);
+
+int cp_a_hl(Cpu* cpu);
+
+int cp_a_n(Cpu* cpu);
+
+int inc_r(Cpu* cpu, uint8_t r1);
+
+int inc_hl(Cpu* cpu);
+
+int dec_r(Cpu* cpu, uint8_t r1);
+
+int dec_hl(Cpu* cpu);

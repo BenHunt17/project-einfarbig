@@ -84,6 +84,12 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x03:
 				cycles = inc_rr(cpu, REGISTER_PAIR_BC);
 				break;
+			case 0x04:
+				cycles = inc_r(cpu, REGISTER_B);
+				break;
+			case 0x05:
+				cycles = dec_r(cpu, REGISTER_B);
+				break;
 			case 0x06:
 				cycles = ld_r_n(cpu, REGISTER_B);
 				break;
@@ -99,6 +105,12 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x0b:
 				cycles = dec_rr(cpu, REGISTER_PAIR_BC);
 				break;
+			case 0x0c:
+				cycles = inc_r(cpu, REGISTER_C);
+				break;
+			case 0x0d:
+				cycles = dec_r(cpu, REGISTER_C);
+				break;
 			case 0x0e:
 				cycles = ld_r_n(cpu, REGISTER_C);
 				break;
@@ -110,6 +122,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x13:
 				cycles = inc_rr(cpu, REGISTER_PAIR_DE);
+				break;
+			case 0x15:
+				cycles = dec_r(cpu, REGISTER_D);
 				break;
 			case 0x16:
 				cycles = ld_r_n(cpu, REGISTER_D);
@@ -123,6 +138,12 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x1b:
 				cycles = dec_rr(cpu, REGISTER_PAIR_DE);
 				break;
+			case 0x1c:
+				cycles = inc_r(cpu, REGISTER_E);
+				break;
+			case 0x1d:
+				cycles = dec_r(cpu, REGISTER_E);
+				break;
 			case 0x1e:
 				cycles = ld_r_n(cpu, REGISTER_E);
 				break;
@@ -134,6 +155,12 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x23:
 				cycles = inc_rr(cpu, REGISTER_PAIR_HL);
+				break;
+			case 0x24:
+				cycles = inc_r(cpu, REGISTER_H);
+				break;
+			case 0x25:
+				cycles = dec_r(cpu, REGISTER_H);
 				break;
 			case 0x26:
 				cycles = ld_r_n(cpu, REGISTER_H);
@@ -147,6 +174,12 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x2b:
 				cycles = dec_rr(cpu, REGISTER_PAIR_HL);
 				break;
+			case 0x2c:
+				cycles = inc_r(cpu, REGISTER_L);
+				break;
+			case 0x2d:
+				cycles = dec_r(cpu, REGISTER_L);
+				break;
 			case 0x2e:
 				cycles = ld_r_n(cpu, REGISTER_L);
 				break;
@@ -159,6 +192,12 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x33:
 				cycles = inc_rr(cpu, REGISTER_PAIR_SP);
 				break;
+			case 0x34:
+				cycles = inc_hl(cpu);
+				break;
+			case 0x35:
+				cycles = dec_hl(cpu);
+				break;
 			case 0x36:
 				cycles = ld_hl_n(cpu);
 				break;
@@ -170,6 +209,12 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x3b:
 				cycles = dec_rr(cpu, REGISTER_PAIR_SP);
+				break;
+			case 0x3c:
+				cycles = inc_r(cpu, REGISTER_A);
+				break;
+			case 0x3d:
+				cycles = dec_r(cpu, REGISTER_D);
 				break;
 			case 0x3e:
 				cycles = ld_r_n(cpu, REGISTER_A);
@@ -531,6 +576,30 @@ void cpu_cycle(Cpu* cpu) {
 			case 0xb7:
 				cycles = or_a_r(cpu, REGISTER_A);
 				break;
+			case 0xb8:
+				cycles = cp_a_r(cpu, REGISTER_B);
+				break;
+			case 0xb9:
+				cycles = cp_a_r(cpu, REGISTER_C);
+				break;
+			case 0xba:
+				cycles = cp_a_r(cpu, REGISTER_D);
+				break;
+			case 0xbb:
+				cycles = cp_a_r(cpu, REGISTER_E);
+				break;
+			case 0xbc:
+				cycles = cp_a_r(cpu, REGISTER_H);
+				break;
+			case 0xbd:
+				cycles = cp_a_r(cpu, REGISTER_L);
+				break;
+			case 0xbe:
+				cycles = cp_a_hl(cpu);
+				break;
+			case 0xbf:
+				cycles = cp_a_r(cpu, REGISTER_A);
+				break;
 			case 0xc1:
 				cycles = pop_rr(cpu, REGISTER_PAIR_BC);
 				break;
@@ -600,10 +669,12 @@ void cpu_cycle(Cpu* cpu) {
 			case 0xf9:
 				cycles = ld_sp_hl(cpu);
 				break;
-			case 0xfA:
+			case 0xfa:
 				cycles = ld_a_nn(cpu);
 				break;
-			//TODO - implement all
+			case 0xfe:
+				cycles = cp_a_n(cpu);
+				break;
 		}
 
 		cpu->instructionCycleCount = cycles;
