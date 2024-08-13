@@ -7,6 +7,7 @@
 #include "8_bit_arithmetic_logic_instructions.h"
 #include "control_instructions.h"
 #include "16_bit_arithmetic_logic_instructions.h"
+#include "rotate_shift_instructions.h"
 
 void initialise_cpu(Cpu* cpu) {
 	cpu->pc = 0x100;
@@ -93,6 +94,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x06:
 				cycles = ld_r_n(cpu, REGISTER_B);
 				break;
+			case 0x07:
+				cycles = rlca(cpu);
+				break;
 			case 0x08:
 				cycles = ld_nn_sp(cpu);
 				break;
@@ -114,6 +118,9 @@ void cpu_cycle(Cpu* cpu) {
 			case 0x0e:
 				cycles = ld_r_n(cpu, REGISTER_C);
 				break;
+			case 0x0f:
+				cycles = rrca(cpu);
+				break;
 			case 0x11:
 				cycles = ld_rr_nn(cpu, REGISTER_PAIR_DE);
 				break;
@@ -128,6 +135,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x16:
 				cycles = ld_r_n(cpu, REGISTER_D);
+				break;
+			case 0x17:
+				cycles = rla(cpu);
 				break;
 			case 0x19:
 				cycles = add_hl_rr(cpu, REGISTER_PAIR_DE);
@@ -146,6 +156,9 @@ void cpu_cycle(Cpu* cpu) {
 				break;
 			case 0x1e:
 				cycles = ld_r_n(cpu, REGISTER_E);
+				break;
+			case 0x1f:
+				cycles = rra(cpu);
 				break;
 			case 0x21:
 				cycles = ld_rr_nn(cpu, REGISTER_PAIR_HL);

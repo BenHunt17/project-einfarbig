@@ -25,6 +25,7 @@
     <ClCompile Include="src\cpu\8_bit_load_instructions.c" />
     <ClCompile Include="src\cpu\control_instructions.c" />
     <ClCompile Include="src\cpu\cpu.c" />
+    <ClCompile Include="src\cpu\rotate_shift_instructions.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\bus.c" />
   </ItemGroup>
@@ -36,6 +37,7 @@
     <ClInclude Include="src\cpu\control_instructions.h" />
     <ClInclude Include="src\cpu\cpu.h" />
     <ClInclude Include="src\bus.h" />
+    <ClInclude Include="src\cpu\rotate_shift_instructions.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -123,6 +123,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="unit\cpu\mock_cpu.cpp" />
+    <ClCompile Include="unit\cpu\rotate_shift_instruction_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dmg-emulator\dmg-emulator.vcxproj">
