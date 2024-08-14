@@ -25,3 +25,15 @@ int rrc_hl(Cpu* cpu);
 int rr_r(Cpu* cpu, uint8_t r1);
 
 int rr_hl(Cpu* cpu);
+
+int sla_r(Cpu* cpu, uint8_t r1);
+
+int sla_hl(Cpu* cpu);
+
+int sra_r(Cpu* cpu, uint8_t r1);
+
+int sra_hl(Cpu* cpu);
+
+int srl_r(Cpu* cpu, uint8_t);
+
+int srl_hl(Cpu* cpu);

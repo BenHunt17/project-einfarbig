@@ -80,6 +80,7 @@ void cpu_cycle(Cpu* cpu) {
 		else {
 			switch (opcode) {
 				//TODO - there are apprently more clever ways of decoding the opcode. maybe look into once I'm more confident around this instruction set [https://www.reddit.com/r/EmuDev/comments/scps99/gameboy_is_it_necessary_to_implement_the/]
+				//https://www.reddit.com/r/EmuDev/comments/7ljc41/how_to_algorithmically_parse_gameboy_opcodes/
 				case 0x00:
 					cycles = nop();
 					break;
