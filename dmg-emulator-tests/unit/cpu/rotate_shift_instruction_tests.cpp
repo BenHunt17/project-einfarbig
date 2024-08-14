@@ -72,3 +72,36 @@ TEST(rotate_shift_instruction_tests, rra) {
 
 	FreeMockCpu(cpu);
 }
+
+TEST(rotate_shift_instruction_tests, rlc_r) {
+	Cpu* cpu = SetUpMockCpu(NULL, 0);
+
+	cpu->registers[REGISTER_B] = 0x85;
+
+	rlc_r(cpu, REGISTER_B);
+
+	EXPECT_EQ(cpu->registers[REGISTER_B], 0x0b);
+	EXPECT_EQ(get_flag(cpu, HALF_CARRY_FLAG_BIT), 0x0);
+	EXPECT_EQ(get_flag(cpu, SUBTRACTION_FLAG_BIT), 0x0);
+	EXPECT_EQ(get_flag(cpu, CARRY_FLAG_BIT), 0x1);
+	EXPECT_EQ(get_flag(cpu, ZERO_FLAG_BIT), 0x0);
+
+	FreeMockCpu(cpu);
+}
+
+TEST(rotate_shift_instruction_tests, rlc_hl) {
+	uint8_t program[] = { 0x00, 0x00, 0x00 };
+	Cpu* cpu = SetUpMockCpu(program, 3);
+
+	write_register_pair(cpu, REGISTER_PAIR_HL, 0xc001);
+
+	rlc_hl(cpu);
+
+	EXPECT_EQ(read_byte(cpu->bus, 0xc001), 0x0);
+	EXPECT_EQ(get_flag(cpu, HALF_CARRY_FLAG_BIT), 0x0);
+	EXPECT_EQ(get_flag(cpu, SUBTRACTION_FLAG_BIT), 0x0);
+	EXPECT_EQ(get_flag(cpu, CARRY_FLAG_BIT), 0x0);
+	EXPECT_EQ(get_flag(cpu, ZERO_FLAG_BIT), 0x1);
+
+	FreeMockCpu(cpu);
+}
