@@ -182,3 +182,21 @@ int srl_hl(Cpu* cpu) {
 
 	return 16;
 }
+
+int swap_r(Cpu* cpu, uint8_t r1) {
+	cpu->registers[r1] = (cpu->registers[r1] << 4) | (cpu->registers[r1] >> 4);
+
+	update_shift_rotate_flags(cpu, 0x0, cpu->registers[r1]);
+
+	return 8;
+}
+
+int swap_hl(Cpu* cpu) {
+	uint16_t address = read_register_pair(cpu, REGISTER_PAIR_HL);
+	uint8_t data = read_byte(cpu->bus, address);
+	write_byte(cpu->bus, address, (data << 4) | (data >> 4));
+
+	update_shift_rotate_flags(cpu, 0x0, read_byte(cpu->bus, address));
+
+	return 16;
+}

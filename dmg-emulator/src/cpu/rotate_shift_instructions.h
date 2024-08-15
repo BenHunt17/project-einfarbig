@@ -37,3 +37,7 @@ int sra_hl(Cpu* cpu);
 int srl_r(Cpu* cpu, uint8_t);
 
 int srl_hl(Cpu* cpu);
+
+int swap_r(Cpu* cpu, uint8_t r1);
+
+int swap_hl(Cpu* cpu);
