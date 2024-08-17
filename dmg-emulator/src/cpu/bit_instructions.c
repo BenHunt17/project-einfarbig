@@ -15,6 +15,8 @@ int bit_b_hl(Cpu* cpu, uint8_t bit) {
 	set_flag(cpu, ZERO_FLAG_BIT, (~data >> bit) & 0x1);
 	set_flag(cpu, HALF_CARRY_FLAG_BIT, 0x1);
 	set_flag(cpu, SUBTRACTION_FLAG_BIT, 0x0);
+
+	return 12;
 }
 
 int set_b_r(Cpu* cpu, uint8_t bit, uint8_t r1) {

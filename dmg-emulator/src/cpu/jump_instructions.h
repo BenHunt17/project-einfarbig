@@ -18,3 +18,5 @@ int jr_e(Cpu* cpu);
 int jr_cc_e(Cpu* cpu, Condition cc);
 
 int jp_hl(Cpu* cpu);
+
+int call_nn(Cpu* cpu);

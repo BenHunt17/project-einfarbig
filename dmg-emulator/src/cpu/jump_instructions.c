@@ -43,3 +43,14 @@ int jp_hl(Cpu* cpu) {
 
 	return 4;
 }
+
+int call_nn(Cpu* cpu) {
+	uint16_t subroutine_address = fetch16(cpu);
+
+	write_word(cpu->bus, cpu->sp - 2, cpu->pc);
+	cpu->sp -= 2;
+
+	cpu->pc = subroutine_address;
+
+	return 24;
+}
