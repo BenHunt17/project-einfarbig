@@ -1,13 +1,5 @@
 #include "jump_instructions.h"
 
-bool condition_matches(Cpu* cpu, Condition cc) {
-	return 
-		(cc == CONDITION_NZ && get_flag(cpu, ZERO_FLAG_BIT) == 0x0) ||
-		(cc == CONDITION_Z && get_flag(cpu, ZERO_FLAG_BIT) == 0x1) ||
-		(cc == CONDITION_NC && get_flag(cpu, CARRY_FLAG_BIT) == 0x0) ||
-		(cc == CONDITION_C && get_flag(cpu, CARRY_FLAG_BIT) == 0x1);
-}
-
 int jp_nn(Cpu* cpu) {
 	cpu->pc = fetch16(cpu);
 
@@ -42,15 +34,4 @@ int jp_hl(Cpu* cpu) {
 	cpu->pc = read_register_pair(cpu, REGISTER_PAIR_HL);
 
 	return 4;
-}
-
-int call_nn(Cpu* cpu) {
-	uint16_t subroutine_address = fetch16(cpu);
-
-	write_word(cpu->bus, cpu->sp - 2, cpu->pc);
-	cpu->sp -= 2;
-
-	cpu->pc = subroutine_address;
-
-	return 24;
 }

@@ -13,6 +13,8 @@ Cpu* SetUpMockCpu(uint8_t* program, int programSize) {
 	cpu->pc = 0xc000;
 	cpu->sp = 0xce00;
 
+	cpu->ime = false;
+
 	return cpu;
 }
 

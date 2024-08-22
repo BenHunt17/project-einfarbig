@@ -13,6 +13,8 @@ void initialise_cpu(Cpu* cpu) {
 	cpu->pc = 0x100;
 	cpu->sp = 0xfffe;
 
+	cpu->ime = false;
+
 	initialise_bus(cpu->bus); //TODO - review
 
 	cpu->elapsedInstructionCycles = 0;
@@ -64,6 +66,14 @@ void set_flag(Cpu* state, uint8_t flag_bit, bool is_set) {
 	else {
 		state->registers[1] &= ~(0x1 << flag_bit);
 	}
+}
+
+bool condition_matches(Cpu* cpu, Condition cc) {
+	return
+		(cc == CONDITION_NZ && get_flag(cpu, ZERO_FLAG_BIT) == 0x0) ||
+		(cc == CONDITION_Z && get_flag(cpu, ZERO_FLAG_BIT) == 0x1) ||
+		(cc == CONDITION_NC && get_flag(cpu, CARRY_FLAG_BIT) == 0x0) ||
+		(cc == CONDITION_C && get_flag(cpu, CARRY_FLAG_BIT) == 0x1);
 }
 
 void cpu_cycle(Cpu* cpu) {

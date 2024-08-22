@@ -29,10 +29,19 @@ typedef enum {
 	REGISTER_PAIR_SP = -1,
 } RegisterPair;
 
+typedef enum {
+	CONDITION_NZ = 0,
+	CONDITION_Z = 1,
+	CONDITION_NC = 2,
+	CONDITION_C = 3,
+} Condition;
+
 typedef struct {
 	uint16_t pc;
 	uint8_t registers[NUMBER_OF_GENERAL_REGISTERS];
 	uint16_t sp;
+
+	bool ime; //Interupt master enable
 
 	Bus* bus;
 
@@ -55,5 +64,7 @@ void write_register_pair(Cpu* cpu, RegisterPair register_pair, uint16_t data);
 bool get_flag(Cpu* cpu, uint8_t flag_bit);
 
 void set_flag(Cpu* cpu, uint8_t flag_bit, bool is_set);
+
+bool condition_matches(Cpu* cpu, Condition cc);
 
 void cpu_cycle(Cpu* cpu);

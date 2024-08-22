@@ -79,21 +79,3 @@ TEST(jump_instruction_tests, jp_hl) {
 
 	EXPECT_EQ(cpu->pc, 0x8000);
 }
-
-TEST(jump_instruction_tests, call_nn) {
-	uint8_t program[8192] = { 0 };
-	program[1] = 0x34;
-	program[2] = 0x12;
-
-	Cpu* cpu = SetUpMockCpu(program, 8192);
-
-	cpu->pc = 0xc001;
-	cpu->sp = 0xc0fe;
-
-	call_nn(cpu);
-
-	EXPECT_EQ(cpu->pc, 0x1234);
-	EXPECT_EQ(cpu->sp, 0xc0fc);
-	EXPECT_EQ(read_byte(cpu->bus, 0xc0fd), 0xc0);
-	EXPECT_EQ(read_byte(cpu->bus, 0xc0fc), 0x03);
-}
