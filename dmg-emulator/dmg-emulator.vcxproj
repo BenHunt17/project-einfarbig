@@ -27,6 +27,7 @@
     <ClCompile Include="src\cpu\call_return_instructions.c" />
     <ClCompile Include="src\cpu\control_instructions.c" />
     <ClCompile Include="src\cpu\cpu.c" />
+    <ClCompile Include="src\cpu\general_purpose_instructions.c" />
     <ClCompile Include="src\cpu\jump_instructions.c" />
     <ClCompile Include="src\cpu\rotate_shift_instructions.c" />
     <ClCompile Include="src\main.c" />
@@ -42,6 +43,7 @@
     <ClInclude Include="src\cpu\control_instructions.h" />
     <ClInclude Include="src\cpu\cpu.h" />
     <ClInclude Include="src\bus.h" />
+    <ClInclude Include="src\cpu\general_purpose_instructions.h" />
     <ClInclude Include="src\cpu\jump_instructions.h" />
     <ClInclude Include="src\cpu\rotate_shift_instructions.h" />
   </ItemGroup>

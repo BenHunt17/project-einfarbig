@@ -13,6 +13,7 @@
     <ClCompile Include="src\cpu\bit_instructions.c" />
     <ClCompile Include="src\cpu\jump_instructions.c" />
     <ClCompile Include="src\cpu\call_return_instructions.c" />
+    <ClCompile Include="src\cpu\general_purpose_instructions.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\cpu\cpu.h" />
@@ -26,5 +27,6 @@
     <ClInclude Include="src\cpu\bit_instructions.h" />
     <ClInclude Include="src\cpu\jump_instructions.h" />
     <ClInclude Include="src\cpu\call_return_instructions.h" />
+    <ClInclude Include="src\cpu\general_purpose_instructions.h" />
   </ItemGroup>
 </Project>
