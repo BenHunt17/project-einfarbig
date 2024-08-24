@@ -41,7 +41,11 @@ typedef struct {
 	uint8_t registers[NUMBER_OF_GENERAL_REGISTERS];
 	uint16_t sp;
 
+	bool next_ime; //IE instruction skips a cycle before actually setting IME. Therefore using this flag to schedule it
 	bool ime; //Interupt master enable
+
+	bool is_halted;
+	bool is_stopped;
 
 	Bus* bus;
 

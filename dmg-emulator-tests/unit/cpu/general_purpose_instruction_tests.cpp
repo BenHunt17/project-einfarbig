@@ -34,3 +34,56 @@ TEST(general_purpose_instructions, daa) {
 	EXPECT_EQ(get_flag(cpu, ZERO_FLAG_BIT), false);
 	EXPECT_EQ(get_flag(cpu, CARRY_FLAG_BIT), false);
 }
+
+TEST(general_purpose_instructions, cpl) {
+	Cpu* cpu = SetUpMockCpu(NULL, 0);
+
+	cpu->registers[REGISTER_A] = 0x35;
+
+	cpl(cpu);
+
+	EXPECT_EQ(cpu->registers[REGISTER_A], 0xca);
+	EXPECT_EQ(get_flag(cpu, HALF_CARRY_FLAG_BIT), true);
+	EXPECT_EQ(get_flag(cpu, SUBTRACTION_FLAG_BIT), true);
+}
+
+TEST(general_purpose_instructions, ccf) {
+	Cpu* cpu = SetUpMockCpu(NULL, 0);
+
+	set_flag(cpu, CARRY_FLAG_BIT, true);
+
+	ccf(cpu);
+
+	EXPECT_EQ(get_flag(cpu, CARRY_FLAG_BIT), false);
+	EXPECT_EQ(get_flag(cpu, HALF_CARRY_FLAG_BIT), false);
+	EXPECT_EQ(get_flag(cpu, SUBTRACTION_FLAG_BIT), false);
+}
+
+TEST(general_purpose_instructions, scf) {
+	Cpu* cpu = SetUpMockCpu(NULL, 0);
+
+	set_flag(cpu, CARRY_FLAG_BIT, false);
+
+	scf(cpu);
+
+	EXPECT_EQ(get_flag(cpu, CARRY_FLAG_BIT), true);
+	EXPECT_EQ(get_flag(cpu, HALF_CARRY_FLAG_BIT), false);
+	EXPECT_EQ(get_flag(cpu, SUBTRACTION_FLAG_BIT), false);
+}
+
+TEST(general_purpose_instructions, di) {
+	Cpu* cpu = SetUpMockCpu(NULL, 0);
+	cpu->ime = true;
+
+	di(cpu);
+
+	EXPECT_EQ(cpu->ime, false);
+}
+
+TEST(general_purpose_instructions, ei) {
+	Cpu* cpu = SetUpMockCpu(NULL, 0);
+
+	ei(cpu);
+
+	EXPECT_EQ(cpu->next_ime, true);
+}

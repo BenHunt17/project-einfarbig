@@ -30,3 +30,60 @@ int daa(Cpu* cpu) {
 
 	return 4;
 }
+
+int cpl(Cpu* cpu) {
+	cpu->registers[REGISTER_A] = ~cpu->registers[REGISTER_A];
+
+	set_flag(cpu, HALF_CARRY_FLAG_BIT, true);
+	set_flag(cpu, SUBTRACTION_FLAG_BIT, true);
+
+	return 4;
+}
+
+int nop() {
+	//Do nothing
+	return 4;
+}
+
+int ccf(Cpu* cpu) {
+	bool c = get_flag(cpu, CARRY_FLAG_BIT);
+	set_flag(cpu, CARRY_FLAG_BIT, !c);
+
+	set_flag(cpu, HALF_CARRY_FLAG_BIT, false);
+	set_flag(cpu, SUBTRACTION_FLAG_BIT, false);
+
+	return true;
+}
+
+int scf(Cpu* cpu) {
+	set_flag(cpu, CARRY_FLAG_BIT, true);
+
+	set_flag(cpu, HALF_CARRY_FLAG_BIT, false);
+	set_flag(cpu, SUBTRACTION_FLAG_BIT, false);
+
+	return 4;
+}
+
+int di(Cpu* cpu) {
+	cpu->ime = false;
+
+	return 4;
+}
+
+int ei(Cpu* cpu) {
+	cpu->next_ime = true;
+
+	return 4;
+}
+
+int halt(Cpu* cpu) {
+	cpu->is_halted = true;
+
+	return 4;
+}
+
+int stop(Cpu* cpu) {
+	cpu->is_stopped = true;
+
+	return 4;
+}

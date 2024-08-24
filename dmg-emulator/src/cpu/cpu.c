@@ -5,7 +5,6 @@
 #include "8_bit_load_instructions.h"
 #include "16_bit_load_instructions.h"
 #include "8_bit_arithmetic_logic_instructions.h"
-#include "control_instructions.h"
 #include "16_bit_arithmetic_logic_instructions.h"
 #include "rotate_shift_instructions.h"
 
@@ -13,7 +12,11 @@ void initialise_cpu(Cpu* cpu) {
 	cpu->pc = 0x100;
 	cpu->sp = 0xfffe;
 
+	cpu->next_ime = false;
 	cpu->ime = false;
+
+	cpu->is_halted = false;
+	cpu->is_stopped = false;
 
 	initialise_bus(cpu->bus); //TODO - review
 
@@ -91,9 +94,6 @@ void cpu_cycle(Cpu* cpu) {
 			switch (opcode) {
 				//TODO - there are apprently more clever ways of decoding the opcode. maybe look into once I'm more confident around this instruction set [https://www.reddit.com/r/EmuDev/comments/scps99/gameboy_is_it_necessary_to_implement_the/]
 				//https://www.reddit.com/r/EmuDev/comments/7ljc41/how_to_algorithmically_parse_gameboy_opcodes/
-				case 0x00:
-					cycles = nop();
-					break;
 				case 0x01:
 					cycles = ld_rr_nn(cpu, REGISTER_PAIR_BC);
 					break;
