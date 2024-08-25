@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cpu.h"
+#include "../cpu.h"
 
 int rlca(Cpu* cpu);
 

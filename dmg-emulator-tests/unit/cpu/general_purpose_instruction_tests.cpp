@@ -4,7 +4,7 @@
 
 extern "C" {
 #include "../../../dmg-emulator/src/cpu/cpu.h"
-#include "../../../dmg-emulator/src/cpu/general_purpose_instructions.h"
+#include "../../../dmg-emulator/src/cpu/instructions/general_purpose_instructions.h"
 }
 
 TEST(general_purpose_instructions, daa) {

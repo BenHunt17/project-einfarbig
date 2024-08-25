@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cpu.h"
+#include "../cpu.h"
 
 int ld_rr_nn(Cpu* cpu, RegisterPair rp);
 

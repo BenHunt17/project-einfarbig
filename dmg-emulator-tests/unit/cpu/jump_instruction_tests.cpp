@@ -4,7 +4,7 @@
 
 extern "C" {
 #include "../../../dmg-emulator/src/cpu/cpu.h"
-#include "../../../dmg-emulator/src/cpu/jump_instructions.h"
+#include "../../../dmg-emulator/src/cpu/instructions/jump_instructions.h"
 }
 
 TEST(jump_instruction_tests, jp_nn) {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cpu.h"
+#include "../cpu.h"
 
 int ld_r_r(Cpu* cpu, uint8_t r1, uint8_t r2);
 

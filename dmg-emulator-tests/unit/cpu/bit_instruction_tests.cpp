@@ -4,7 +4,7 @@
 
 extern "C" {
 #include "../../../dmg-emulator/src/cpu/cpu.h"
-#include "../../../dmg-emulator/src/cpu/bit_instructions.h"
+#include "../../../dmg-emulator/src/cpu/instructions/bit_instructions.h"
 }
 
 TEST(bit_instruction_tests, bit_b_r) {

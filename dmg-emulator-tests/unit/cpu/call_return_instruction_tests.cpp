@@ -4,7 +4,7 @@
 
 extern "C" {
 #include "../../../dmg-emulator/src/cpu/cpu.h"
-#include "../../../dmg-emulator/src/cpu/call_return_instructions.h"
+#include "../../../dmg-emulator/src/cpu/instructions/call_return_instructions.h"
 }
 
 TEST(call_return_instruction_tests, call_nn) {

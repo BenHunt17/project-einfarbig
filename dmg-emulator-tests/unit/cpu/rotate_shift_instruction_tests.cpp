@@ -4,7 +4,7 @@
 
 extern "C" {
 #include "../../../dmg-emulator/src/cpu/cpu.h"
-#include "../../../dmg-emulator/src/cpu/rotate_shift_instructions.h"
+#include "../../../dmg-emulator/src/cpu/instructions/rotate_shift_instructions.h"
 }
 
 TEST(rotate_shift_instruction_tests, rlca) {

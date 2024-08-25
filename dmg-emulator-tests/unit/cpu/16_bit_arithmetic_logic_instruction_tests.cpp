@@ -4,7 +4,7 @@
 
 extern "C" {
 #include "../../../dmg-emulator/src/cpu/cpu.h"
-#include "../../../dmg-emulator/src/cpu/16_bit_arithmetic_logic_instructions.h"
+#include "../../../dmg-emulator/src/cpu/instructions/16_bit_arithmetic_logic_instructions.h"
 }
 
 TEST(sixteen_bit_arithmetic_logic_instruction_tests, add_hl_rr) {

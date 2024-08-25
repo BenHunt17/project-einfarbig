@@ -19,31 +19,33 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cpu\16_bit_arithmetic_logic_instructions.c" />
-    <ClCompile Include="src\cpu\16_bit_load_instructions.c" />
-    <ClCompile Include="src\cpu\8_bit_arithmetic_logic_instructions.c" />
-    <ClCompile Include="src\cpu\8_bit_load_instructions.c" />
-    <ClCompile Include="src\cpu\bit_instructions.c" />
-    <ClCompile Include="src\cpu\call_return_instructions.c" />
+    <ClCompile Include="src\cpu\instructions\16_bit_arithmetic_logic_instructions.c" />
+    <ClCompile Include="src\cpu\instructions\16_bit_load_instructions.c" />
+    <ClCompile Include="src\cpu\instructions\8_bit_arithmetic_logic_instructions.c" />
+    <ClCompile Include="src\cpu\instructions\8_bit_load_instructions.c" />
+    <ClCompile Include="src\cpu\instructions\bit_instructions.c" />
+    <ClCompile Include="src\cpu\instructions\call_return_instructions.c" />
     <ClCompile Include="src\cpu\cpu.c" />
-    <ClCompile Include="src\cpu\general_purpose_instructions.c" />
-    <ClCompile Include="src\cpu\jump_instructions.c" />
-    <ClCompile Include="src\cpu\rotate_shift_instructions.c" />
+    <ClCompile Include="src\cpu\decoder.c" />
+    <ClCompile Include="src\cpu\instructions\general_purpose_instructions.c" />
+    <ClCompile Include="src\cpu\instructions\jump_instructions.c" />
+    <ClCompile Include="src\cpu\instructions\rotate_shift_instructions.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\bus.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\cpu\16_bit_arithmetic_logic_instructions.h" />
-    <ClInclude Include="src\cpu\16_bit_load_instructions.h" />
-    <ClInclude Include="src\cpu\8_bit_arithmetic_logic_instructions.h" />
-    <ClInclude Include="src\cpu\8_bit_load_instructions.h" />
-    <ClInclude Include="src\cpu\bit_instructions.h" />
-    <ClInclude Include="src\cpu\call_return_instructions.h" />
+    <ClInclude Include="src\cpu\instructions\16_bit_arithmetic_logic_instructions.h" />
+    <ClInclude Include="src\cpu\instructions\16_bit_load_instructions.h" />
+    <ClInclude Include="src\cpu\instructions\8_bit_arithmetic_logic_instructions.h" />
+    <ClInclude Include="src\cpu\instructions\8_bit_load_instructions.h" />
+    <ClInclude Include="src\cpu\instructions\bit_instructions.h" />
+    <ClInclude Include="src\cpu\instructions\call_return_instructions.h" />
     <ClInclude Include="src\cpu\cpu.h" />
     <ClInclude Include="src\bus.h" />
-    <ClInclude Include="src\cpu\general_purpose_instructions.h" />
-    <ClInclude Include="src\cpu\jump_instructions.h" />
-    <ClInclude Include="src\cpu\rotate_shift_instructions.h" />
+    <ClInclude Include="src\cpu\decoder.h" />
+    <ClInclude Include="src\cpu\instructions\general_purpose_instructions.h" />
+    <ClInclude Include="src\cpu\instructions\jump_instructions.h" />
+    <ClInclude Include="src\cpu\instructions\rotate_shift_instructions.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
