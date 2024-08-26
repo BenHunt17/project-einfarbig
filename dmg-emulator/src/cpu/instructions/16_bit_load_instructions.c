@@ -2,12 +2,8 @@
 
 int ld_rr_nn(Cpu* cpu, RegisterPair rp) {
 	uint16_t data = fetch16(cpu);
-	if (rp == REGISTER_PAIR_SP) {
-		cpu->sp = data;
-	}
-	else {
-		write_register_pair(cpu, rp, data);
-	}
+	write_register_pair(cpu, rp, data);
+	
 	return 12;
 }
 
@@ -30,13 +26,6 @@ int pop_rr(Cpu* cpu, RegisterPair rp) {
 	return 12;
 }
 
-int ld_nn_sp(Cpu* cpu) {
-	uint16_t data = cpu->sp;
-	uint16_t address = fetch16(cpu);
-	write_word(cpu->bus, address, data);
-	return 20;
-}
-
 int ld_hl_sp_e(Cpu* cpu) {
 	int8_t data = fetch8(cpu);
 	write_register_pair(cpu, REGISTER_PAIR_HL, data + cpu->sp);
@@ -47,4 +36,11 @@ int ld_hl_sp_e(Cpu* cpu) {
 	set_flag(cpu, CARRY_FLAG_BIT, data + cpu->sp > 0xffff);
 
 	return 12;
+}
+
+int ld_nn_sp(Cpu* cpu) {
+	uint16_t data = cpu->sp;
+	uint16_t address = fetch16(cpu);
+	write_word(cpu->bus, address, data);
+	return 20;
 }

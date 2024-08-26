@@ -10,6 +10,6 @@ int push_rr(Cpu* cpu, RegisterPair rp);
 
 int pop_rr(Cpu* cpu, RegisterPair rp);
 
-int ld_nn_sp(Cpu* cpu);
-
 int ld_hl_sp_e(Cpu* cpu);
+
+int ld_nn_sp(Cpu* cpu);
