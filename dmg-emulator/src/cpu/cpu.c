@@ -78,7 +78,16 @@ void cpu_cycle(Cpu* cpu) {
 	if (cpu->elapsedInstructionCycles == 0) {
 		uint8_t opcode = fetch8(cpu);
 
-		int cycles = decode_execute(cpu, opcode);
+		int cycles = 0;
+
+		if (opcode == 0xcb) {
+			opcode = fetch8(cpu);
+			cycles = decode_execute_extended_set(cpu, opcode);
+		}
+		else {
+			cycles = decode_execute(cpu, opcode);
+		}
+
 
 		cpu->instructionCycleCount = cycles;
 	}

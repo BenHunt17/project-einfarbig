@@ -8,7 +8,7 @@ int rla(Cpu* cpu);
 
 int rrca(Cpu* cpu);
 
-int rra(Cpu* cpu); //TODO - evaluate if i need these first 4? could just use the generic register versions
+int rra(Cpu* cpu);
 
 int rlc_r(Cpu* cpu, uint8_t r1);
 
