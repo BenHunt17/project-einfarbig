@@ -312,6 +312,85 @@ int decode_execute(Cpu* cpu, uint8_t opcode) {
 		case 0x1f:
 			cycles = rra(cpu);
 			break;
+
+		case 0xc3:
+			cycles = jp_nn(cpu);
+			break;
+
+		case 0xc2: case 0xd2: case 0xca: case 0xda:
+			cycles = jp_cc_nn(cpu, (opcode >> 3) & 3);
+			break;
+
+		case 0x18:
+			cycles = jr_e(cpu);
+			break;
+
+		case 0x20: case 0x30: case 0x28: case 0x38:
+			cycles = jr_cc_e(cpu, (opcode >> 3) & 3);
+			break;
+
+		case 0xe9:
+			cycles = jp_hl(cpu);
+			break;
+
+		case 0xcd:
+			cycles = call_nn(cpu);
+			break;
+
+		case 0xc4: case 0xd4: case 0xcc: case 0xdc:
+			cycles = call_cc_nn(cpu, (opcode >> 3) & 3);
+			break;
+
+		case 0xc9:
+			cycles = ret(cpu);
+			break;
+
+		case 0xd9:
+			cycles = reti(cpu);
+			break;
+
+		case 0xc0: case 0xd0: case 0xc8: case 0xd8:
+			cycles = ret_cc(cpu, (opcode >> 3) & 3);
+
+		case 0xc7: case 0xd7: case 0xe7: case 0xf7: case 0xcf: case 0xdf: case 0xef: case 0xff:
+			cycles = rst_t(cpu, (opcode >> 3) & 7);
+			break;
+
+		case 0x27:
+			cycles = daa(cpu);
+			break;
+
+		case 0x2f:
+			cycles = cpl(cpu);
+			break;
+
+		case 0x00:
+			cycles = nop();
+			break;
+
+		case 0x3f:
+			cycles = ccf(cpu);
+			break;
+
+		case 0x37:
+			cycles = scf(cpu);
+			break;
+
+		case 0xf3:
+			cycles = di(cpu);
+			break;
+
+		case 0xfb:
+			cycles = ei(cpu);
+			break;
+
+		case 0x76:
+			cycles = halt(cpu);
+			break;
+
+		case 0x10:
+			cycles = stop(cpu);
+			break;
 	}
 
 	return cycles;
