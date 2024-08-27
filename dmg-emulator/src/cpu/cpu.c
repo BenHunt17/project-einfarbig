@@ -3,6 +3,59 @@
 #include "cpu.h"
 #include "decoder.h"
 
+void push_pc_on_stack(Cpu* cpu) {
+	write_word(cpu->bus, cpu->sp - 2, cpu->pc);
+	cpu->sp -= 2;
+}
+
+bool handle_interupts(Cpu* cpu) {
+	if (!cpu->ime) {
+		return false;
+	}
+		
+	uint8_t interupt_flags = read_byte(cpu->bus, 0xff0f);
+	uint8_t enabled_interupt_flags = read_byte(cpu->bus, 0xffff) & interupt_flags;
+
+	if (enabled_interupt_flags == 0x0) {
+		return false;
+	}
+
+	cpu->ime = false;
+
+	if (enabled_interupt_flags & 0x1 == 0x1) {
+		//VBlank
+		push_pc_on_stack(cpu);
+		cpu->pc = 0x40;
+		write_byte(cpu->bus, 0xff0f, interupt_flags ^ 0x1);
+	}
+	else if ((enabled_interupt_flags >> 1) & 0x1 == 0x1) {
+		//LCD
+		push_pc_on_stack(cpu);
+		cpu->pc = 0x48;
+		write_byte(cpu->bus, 0xff0f, interupt_flags ^ 0x10);
+	}
+	else if ((enabled_interupt_flags >> 2) & 0x1 == 0x1) {
+		//Timer
+		push_pc_on_stack(cpu);
+		cpu->pc = 0x50;
+		write_byte(cpu->bus, 0xff0f, interupt_flags ^ 0x100);
+	}
+	else if ((enabled_interupt_flags >> 3) & 0x1 == 0x1) {
+		//Serial
+		push_pc_on_stack(cpu);
+		cpu->pc = 0x58;
+		write_byte(cpu->bus, 0xff0f, interupt_flags ^ 0x1000);
+	}
+	else if ((enabled_interupt_flags >> 4) & 0x1 == 0x1) {
+		//Joypad
+		push_pc_on_stack(cpu);
+		cpu->pc = 0x60;
+		write_byte(cpu->bus, 0xff0f, interupt_flags ^ 0x10000);
+	}
+
+	return true;
+}
+
 void initialise_cpu(Cpu* cpu) {
 	cpu->pc = 0x100;
 	cpu->sp = 0xfffe;
@@ -14,9 +67,6 @@ void initialise_cpu(Cpu* cpu) {
 	cpu->is_stopped = false;
 
 	initialise_bus(cpu->bus); //TODO - review
-
-	cpu->elapsedInstructionCycles = 0;
-	cpu->instructionCycleCount = 0;
 }
 
 void free_cpu(Cpu* cpu) {
@@ -74,28 +124,20 @@ bool condition_matches(Cpu* cpu, Condition cc) {
 		(cc == CONDITION_C && get_flag(cpu, CARRY_FLAG_BIT) == 0x1);
 }
 
-void cpu_cycle(Cpu* cpu) {
-	if (cpu->elapsedInstructionCycles == 0) {
-		uint8_t opcode = fetch8(cpu);
+int cpu_tick(Cpu* cpu) {
+	uint8_t opcode = fetch8(cpu);
 
-		int cycles = 0;
+	//TODO - set ime if next_ime is set? before or after interupts?
 
-		if (opcode == 0xcb) {
-			opcode = fetch8(cpu);
-			cycles = decode_execute_extended_set(cpu, opcode);
-		}
-		else {
-			cycles = decode_execute(cpu, opcode);
-		}
+	if (handle_interupts(cpu)) {
+		return 20;
+	}
 
-
-		cpu->instructionCycleCount = cycles;
+	if (opcode == 0xcb) {
+		opcode = fetch8(cpu);
+		return decode_execute_extended_set(cpu, opcode);
 	}
 	else {
-		if (cpu->elapsedInstructionCycles >= cpu->instructionCycleCount) {
-			cpu->elapsedInstructionCycles = 0;
-		}
+		return decode_execute(cpu, opcode);
 	}
-
-	cpu->elapsedInstructionCycles++;
 }

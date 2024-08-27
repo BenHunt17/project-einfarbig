@@ -4,8 +4,13 @@
 
 #define RAM_CAPACITY 8192
 
+#define IO_REGISTERS_SIZE 127
+
 typedef struct { 
 	uint8_t ram[RAM_CAPACITY];
+	uint8_t io_registers[IO_REGISTERS_SIZE];
+
+	uint8_t interupt_enable_register;
 } Bus;
 
 void initialise_bus(Bus* bus);

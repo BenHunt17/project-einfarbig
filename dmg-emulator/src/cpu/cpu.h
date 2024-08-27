@@ -48,9 +48,6 @@ typedef struct {
 	bool is_stopped;
 
 	Bus* bus;
-
-	uint8_t instructionCycleCount;
-	uint8_t elapsedInstructionCycles;
 } Cpu;
 
 void initialise_cpu(Cpu* cpu);
@@ -71,4 +68,4 @@ void set_flag(Cpu* cpu, uint8_t flag_bit, bool is_set);
 
 bool condition_matches(Cpu* cpu, Condition cc);
 
-void cpu_cycle(Cpu* cpu);
+int cpu_tick(Cpu* cpu);

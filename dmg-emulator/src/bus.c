@@ -28,7 +28,25 @@ uint8_t read_byte(Bus* bus, uint16_t address) {
 		uint16_t mapped_address = address - 0xc000;
 		return bus->ram[mapped_address];
 	}
-	//TODO - implement rest of memory map
+	else if (address <= 0xfdff) {
+		//TODO - impelemnt echo ram
+	}
+	else if (address <= 0xfe9f) {
+		//TODO - impelemnt OAM
+	}
+	else if (address <= 0xfeff) {
+		//Prohibited - Do nothing
+	}
+	else if (address <= 0xff7f) {
+		uint16_t mapped_address = address - 0xff00;
+		return bus->io_registers[mapped_address];
+	}
+	else if (address <= 0xfffe) {
+		//TODO - implement high ram
+	}
+	else if (address == 0xffff) {
+		return bus->interupt_enable_register;
+	}
 }
 
 void write_byte(Bus* bus, uint16_t address, uint8_t data) {
@@ -48,11 +66,30 @@ void write_byte(Bus* bus, uint16_t address, uint8_t data) {
 		uint16_t mapped_address = address - 0xc000;
 		bus->ram[mapped_address] = data;
 	}
+	else if (address <= 0xfdff) {
+		//TODO - impelemnt echo ram
+	}
+	else if (address <= 0xfe9f) {
+		//TODO - impelemnt OAM
+	}
+	else if (address <= 0xfeff) {
+		//Prohibited - Do nothing
+	}
+	else if (address <= 0xff7f) {
+		uint16_t mapped_address = address - 0xff00;
+		return bus->io_registers[mapped_address];
+	}
+	else if (address <= 0xfffe) {
+		//TODO - implement high ram
+	}
+	else if (address == 0xffff) {
+		bus->interupt_enable_register = data;
+	}
 	//TODO - implement rest of memory map
 }
 
 uint16_t read_word(Bus* bus, uint16_t address) {
-	//TODO - memory map logic. for now assume address is in main memory
+	//TODO - memory map logic. for now assume address is in main memory (maybe could just usse the 8 bit memory map methods above)
 	uint16_t tempMappedAddress = address - 0xc000;
 
 	uint8_t lo = bus->ram[tempMappedAddress];
