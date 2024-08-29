@@ -125,19 +125,23 @@ bool condition_matches(Cpu* cpu, Condition cc) {
 }
 
 int cpu_tick(Cpu* cpu) {
-	uint8_t opcode = fetch8(cpu);
+	int cycles = 0;
 
 	//TODO - set ime if next_ime is set? before or after interupts?
 
 	if (handle_interupts(cpu)) {
-		return 20;
+		cycles += 20;
 	}
+
+	uint8_t opcode = fetch8(cpu);
 
 	if (opcode == 0xcb) {
 		opcode = fetch8(cpu);
-		return decode_execute_extended_set(cpu, opcode);
+		cycles += decode_execute_extended_set(cpu, opcode);
 	}
 	else {
-		return decode_execute(cpu, opcode);
+		cycles += decode_execute(cpu, opcode);
 	}
+
+	return cycles;
 }
