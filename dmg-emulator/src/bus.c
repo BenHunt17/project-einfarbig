@@ -13,7 +13,7 @@ void free_bus(Bus* bus) {
 
 uint8_t read_byte(Bus* bus, uint16_t address) {
 	if (address <= 0x3fff) {
-		//TODO - implement cartidge
+		return bus->mock_cartridge[address];
 	}
 	else if (address <= 0x7fff) {
 		//TODO - implement cartidge
@@ -51,7 +51,7 @@ uint8_t read_byte(Bus* bus, uint16_t address) {
 
 void write_byte(Bus* bus, uint16_t address, uint8_t data) {
 	if (address <= 0x3fff) {
-		//TODO - implement cartidge
+		//TODO - what do when data is readonly?
 	}
 	else if (address <= 0x7fff) {
 		//TODO - implement cartidge
@@ -89,20 +89,18 @@ void write_byte(Bus* bus, uint16_t address, uint8_t data) {
 }
 
 uint16_t read_word(Bus* bus, uint16_t address) {
-	//TODO - memory map logic. for now assume address is in main memory (maybe could just usse the 8 bit memory map methods above)
-	uint16_t tempMappedAddress = address - 0xc000;
+	//TODO - Double check if this abstraction works
 
-	uint8_t lo = bus->ram[tempMappedAddress];
-	uint8_t hi = bus->ram[tempMappedAddress + 1];
+	uint8_t lo = read_byte(bus, address);
+	uint8_t hi = read_byte(bus, address + 1);
 	return (hi << 8) | lo;
 }
 
 void write_word(Bus* bus, uint16_t address, uint16_t data) {
-	//TODO - memory map logic. for now assume address is in main memory
-	uint16_t tempMappedAddress = address - 0xc000;
-
+	//TODO - Double check if this abstraction works
+	
 	uint8_t lo = (uint8_t)(data & 0xff);
 	uint8_t hi = (uint8_t)((data >> 8) & 0xff);
-	bus->ram[tempMappedAddress] = lo;
-	bus->ram[tempMappedAddress + 1] = hi;
+	write_byte(bus, address, lo);
+	write_byte(bus, address + 1, hi);
 }
