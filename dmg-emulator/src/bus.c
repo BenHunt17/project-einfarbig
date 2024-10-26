@@ -12,80 +12,38 @@ void free_bus(Bus* bus) {
 }
 
 uint8_t read_byte(Bus* bus, uint16_t address) {
-	if (address <= 0x3fff) {
-		return bus->mock_cartridge[address];
-	}
-	else if (address <= 0x7fff) {
-		//TODO - implement cartidge
-	}
-	else if (address <= 0x9fff) {
-		//TODO - implement video ram
-	}
-	else if (address <= 0xbfff) {
-		//TODO - impelement external ram
-	}
-	else if (address <= 0xdfff) {
+	if (address > 0xc000 && address <= 0xdfff) {
 		uint16_t mapped_address = address - 0xc000;
 		return bus->ram[mapped_address];
 	}
-	else if (address <= 0xfdff) {
-		//TODO - impelemnt echo ram
+	if (address == 0xff01 || address == 0xff02) {
+		return bus->serial_data[(address & 0xf) - 1];
 	}
-	else if (address <= 0xfe9f) {
-		//TODO - impelemnt OAM
-	}
-	else if (address <= 0xfeff) {
-		//Prohibited - Do nothing
-	}
-	else if (address <= 0xff7f) {
-		uint16_t mapped_address = address - 0xff00;
-		return bus->io_registers[mapped_address];
-	}
-	else if (address <= 0xfffe) {
-		//TODO - implement high ram
-	}
-	else if (address == 0xffff) {
+	if (address == 0xffff) {
 		return bus->interupt_enable_register;
 	}
+	return bus->mock_memory_mapper[address];
 }
 
 void write_byte(Bus* bus, uint16_t address, uint8_t data) {
-	if (address <= 0x3fff) {
-		//TODO - what do when data is readonly?
+	if (address < 0x8000) {
+		//Block ROM writes
+		return;
 	}
-	else if (address <= 0x7fff) {
-		//TODO - implement cartidge
-	}
-	else if (address <= 0x9fff) {
-		//TODO - implement video ram
-	}
-	else if (address <= 0xbfff) {
-		//TODO - impelement external ram
-	}
-	else if (address <= 0xdfff) {
+
+	if (address > 0xc000 && address <= 0xdfff) {
 		uint16_t mapped_address = address - 0xc000;
 		bus->ram[mapped_address] = data;
 	}
-	else if (address <= 0xfdff) {
-		//TODO - impelemnt echo ram
-	}
-	else if (address <= 0xfe9f) {
-		//TODO - impelemnt OAM
-	}
-	else if (address <= 0xfeff) {
-		//Prohibited - Do nothing
-	}
-	else if (address <= 0xff7f) {
-		uint16_t mapped_address = address - 0xff00;
-		return bus->io_registers[mapped_address];
-	}
-	else if (address <= 0xfffe) {
-		//TODO - implement high ram
+	else if (address == 0xff01 || address == 0xff02) {
+		bus->serial_data[(address & 0xf) - 1] = data;
 	}
 	else if (address == 0xffff) {
 		bus->interupt_enable_register = data;
 	}
-	//TODO - implement rest of memory map
+	else {
+		bus->mock_memory_mapper[address] = data;
+	}
 }
 
 uint16_t read_word(Bus* bus, uint16_t address) {

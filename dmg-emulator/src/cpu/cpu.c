@@ -60,6 +60,15 @@ void initialise_cpu(Cpu* cpu) {
 	cpu->pc = 0x100;
 	cpu->sp = 0xfffe;
 
+	cpu->registers[REGISTER_A] = 0x01;
+	cpu->registers[REGISTER_F] = 0xb0;
+	cpu->registers[REGISTER_B] = 0x00;
+	cpu->registers[REGISTER_C] = 0x13;
+	cpu->registers[REGISTER_D] = 0x00;
+	cpu->registers[REGISTER_E] = 0xd8;
+	cpu->registers[REGISTER_H] = 0x01;
+	cpu->registers[REGISTER_L] = 0x4d;
+
 	cpu->next_ime = false;
 	cpu->ime = false;
 
@@ -90,7 +99,7 @@ uint16_t read_register_pair(Cpu* cpu, RegisterPair register_pair) {
 	if (register_pair == REGISTER_PAIR_SP) {
 		return cpu->sp;
 	}
-	return (cpu->registers[register_pair] << 8) | cpu->registers[register_pair + 1];
+	return (cpu->registers[register_pair + 1] << 8) | (cpu->registers[register_pair]);
 }
 
 void write_register_pair(Cpu* cpu, RegisterPair register_pair, uint16_t data) {
@@ -98,21 +107,21 @@ void write_register_pair(Cpu* cpu, RegisterPair register_pair, uint16_t data) {
 		cpu->sp = data;
 	}
 	else {
-		cpu->registers[register_pair] = (uint8_t)((data >> 8) & 0xff);
-		cpu->registers[register_pair + 1] = (uint8_t)(data & 0xff);
+		cpu->registers[register_pair] = (uint8_t)(data & 0xff);
+		cpu->registers[register_pair + 1] = (uint8_t)((data >> 8) & 0xff);
 	}
 }
 
 bool get_flag(Cpu* state, uint8_t flag_bit) {
-	return (state->registers[1] >> flag_bit) & 0x1;
+	return (state->registers[REGISTER_F] >> flag_bit) & 0x1;
 }
 
 void set_flag(Cpu* state, uint8_t flag_bit, bool is_set) {
 	if (is_set) {
-		state->registers[1] |= (0x1 << flag_bit);
+		state->registers[REGISTER_F] |= (0x1 << flag_bit);
 	}
 	else {
-		state->registers[1] &= ~(0x1 << flag_bit);
+		state->registers[REGISTER_F] &= ~(0x1 << flag_bit);
 	}
 }
 

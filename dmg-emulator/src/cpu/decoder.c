@@ -78,7 +78,7 @@ int decode_execute(Cpu* cpu, uint8_t opcode) {
 				decode_register((opcode >> 3) & 7));
 			break;
 
-		case 0x70: case 0x71:case 0x72:case 0x73:case 0x74:case 0x75:case 0x77:
+		case 0x70: case 0x71: case 0x72: case 0x73: case 0x74: case 0x75: case 0x77:
 			cycles = ld_hl_r(cpu, decode_register(opcode & 7));
 			break;
 

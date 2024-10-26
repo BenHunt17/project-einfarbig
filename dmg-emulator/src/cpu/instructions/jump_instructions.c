@@ -16,14 +16,14 @@ int jp_cc_nn(Cpu* cpu, Condition cc) {
 }
 
 int jr_e(Cpu* cpu) {
-	cpu->pc += (int8_t)fetch8(cpu);
+	cpu->pc += (int8_t)fetch8(cpu) - 2;
 
 	return 12;
 }
 
 int jr_cc_e(Cpu* cpu, Condition cc) {
 	if (condition_matches(cpu, cc)) {
-		cpu->pc += (int8_t)fetch8(cpu);
+		cpu->pc += (int8_t)fetch8(cpu) - 2;
 		return 12;
 	}
 

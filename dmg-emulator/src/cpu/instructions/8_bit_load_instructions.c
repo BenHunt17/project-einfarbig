@@ -43,27 +43,27 @@ int ld_a_de(Cpu* cpu) {
 }
 
 int ld_a_c(Cpu* cpu) {
-	uint16_t address = 0xFF00 & cpu->registers[REGISTER_C];
+	uint16_t address = 0xff00 | cpu->registers[REGISTER_C];
 	cpu->registers[REGISTER_A] = read_byte(cpu->bus, address);
 	return 8;
 }
 
 int ld_c_a(Cpu* cpu) {
 	uint8_t data = cpu->registers[REGISTER_A];
-	uint16_t address = 0xFF00 & cpu->registers[REGISTER_C];
+	uint16_t address = 0xff00 | cpu->registers[REGISTER_C];
 	write_byte(cpu->bus, address, data);
 	return 8;
 }
 
 int ld_a_n(Cpu* cpu) {
-	uint16_t address = 0xFF00 & fetch8(cpu);
+	uint16_t address = 0xff00 | fetch8(cpu);
 	cpu->registers[REGISTER_A] = read_byte(cpu->bus, address);
 	return 12;
 }
 
 int ld_n_a(Cpu* cpu) {
 	uint8_t data = cpu->registers[REGISTER_A];
-	uint16_t address = 0xFF00 & fetch8(cpu);
+	uint16_t address = 0xff00 | fetch8(cpu);
 	write_byte(cpu->bus, address, data);
 	return 12;
 }
