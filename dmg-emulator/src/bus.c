@@ -8,7 +8,6 @@ void initialise_bus(Bus* bus) {
 }
 
 void free_bus(Bus* bus) {
-	free(bus);
 }
 
 uint8_t read_byte(Bus* bus, uint16_t address) {
@@ -18,6 +17,9 @@ uint8_t read_byte(Bus* bus, uint16_t address) {
 	}
 	if (address == 0xff01 || address == 0xff02) {
 		return bus->serial_data[(address & 0xf) - 1];
+	}
+	if (address == 0xff44) {
+		return 0x90;
 	}
 	if (address == 0xffff) {
 		return bus->interupt_enable_register;

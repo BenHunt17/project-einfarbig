@@ -64,8 +64,8 @@ int decode_execute(Cpu* cpu, uint8_t opcode) {
 		case 0x60: case 0x62: case 0x63: case 0x64: case 0x65: case 0x67: case 0x68: case 0x69: case 0x6a: case 0x6b: case 0x6c: case 0x6d: case 0x6f:
 		case 0x78: case 0x79: case 0x7a: case 0x7b: case 0x7c: case 0x7d: case 0x7f:
 			cycles = ld_r_r(cpu,
-				decode_register(opcode & 7),
-				decode_register((opcode >> 3) & 7));
+				decode_register((opcode >> 3) & 7),
+				decode_register(opcode & 7));
 			break;
 
 		case 0x06: case 0x16: case 0x26: case 0x0e: case 0x1e: case 0x2e: case 0x3e:

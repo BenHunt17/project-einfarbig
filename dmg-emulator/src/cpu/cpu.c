@@ -2,6 +2,7 @@
 
 #include "cpu.h"
 #include "decoder.h"
+#include "../debug/logger.h"
 
 void push_pc_on_stack(Cpu* cpu) {
 	write_word(cpu->bus, cpu->sp - 2, cpu->pc);
@@ -56,7 +57,7 @@ bool handle_interupts(Cpu* cpu) {
 	return true;
 }
 
-void initialise_cpu(Cpu* cpu) {
+void initialise_cpu(Cpu* cpu, Bus* bus) {
 	cpu->pc = 0x100;
 	cpu->sp = 0xfffe;
 
@@ -69,18 +70,16 @@ void initialise_cpu(Cpu* cpu) {
 	cpu->registers[REGISTER_H] = 0x01;
 	cpu->registers[REGISTER_L] = 0x4d;
 
-	cpu->next_ime = false;
 	cpu->ime = false;
 
 	cpu->is_halted = false;
 	cpu->is_stopped = false;
 
-	initialise_bus(cpu->bus); //TODO - review
+	cpu->bus = bus;
 }
 
 void free_cpu(Cpu* cpu) {
-	free_bus(cpu->bus);
-	free(cpu);
+	//TODO - do i need these?
 }
 
 uint8_t fetch8(Cpu* cpu) {
@@ -134,6 +133,8 @@ bool condition_matches(Cpu* cpu, Condition cc) {
 }
 
 int cpu_tick(Cpu* cpu) {
+	log_cpu_state(cpu);
+
 	int cycles = 0;
 
 	//TODO - set ime if next_ime is set? before or after interupts?

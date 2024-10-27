@@ -71,7 +71,7 @@ int di(Cpu* cpu) {
 }
 
 int ei(Cpu* cpu) {
-	cpu->next_ime = true;
+	cpu->ime = true;
 
 	return 4;
 }
