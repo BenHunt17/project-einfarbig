@@ -2,6 +2,10 @@
 
 #include <stdlib.h>
 
-#define DEBUG_ENABLED 0
+#include <stdio.h>
 
-void log_cpu_state(_In_z_ _Printf_format_string_ char const* const _Format, ...);
+#include "../cpu/cpu.h"
+
+#define DEBUG_ENABLED 1
+
+void log_cpu_state(Cpu* cpu, FILE* file);

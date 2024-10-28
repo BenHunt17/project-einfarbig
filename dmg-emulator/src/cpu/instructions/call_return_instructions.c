@@ -52,8 +52,6 @@ int ret_cc(Cpu* cpu, Condition cc) {
 		return 20;
 	}
 
-	cpu->pc += 2;
-
 	return 8;
 }
 

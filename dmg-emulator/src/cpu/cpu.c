@@ -98,7 +98,7 @@ uint16_t read_register_pair(Cpu* cpu, RegisterPair register_pair) {
 	if (register_pair == REGISTER_PAIR_SP) {
 		return cpu->sp;
 	}
-	return (cpu->registers[register_pair + 1] << 8) | (cpu->registers[register_pair]);
+	return (cpu->registers[register_pair] << 8) | cpu->registers[register_pair + 1];
 }
 
 void write_register_pair(Cpu* cpu, RegisterPair register_pair, uint16_t data) {
@@ -106,8 +106,8 @@ void write_register_pair(Cpu* cpu, RegisterPair register_pair, uint16_t data) {
 		cpu->sp = data;
 	}
 	else {
-		cpu->registers[register_pair] = (uint8_t)(data & 0xff);
-		cpu->registers[register_pair + 1] = (uint8_t)((data >> 8) & 0xff);
+		cpu->registers[register_pair + 1] = (uint8_t)(data & 0xff);
+		cpu->registers[register_pair] = (uint8_t)((data >> 8) & 0xff);
 	}
 }
 
@@ -133,8 +133,6 @@ bool condition_matches(Cpu* cpu, Condition cc) {
 }
 
 int cpu_tick(Cpu* cpu) {
-	log_cpu_state(cpu);
-
 	int cycles = 0;
 
 	//TODO - set ime if next_ime is set? before or after interupts?

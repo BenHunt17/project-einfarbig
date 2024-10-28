@@ -4,6 +4,7 @@
 
 #include "cpu/cpu.h"
 #include "bus.h"
+#include "debug/logger.h"
 
 int main() {
 	Bus bus = { 0 };
@@ -32,13 +33,30 @@ int main() {
 
 	fclose(file);
 
-	for (int i = 0; i < 50000; i++) {
+	FILE* f;
+	fopen_s(&f, "C:/Users/Ben/Documents/GitHub/project-einfarbig/dmg-emulator/src/debug/logs/state.txt", "a+");
+	if (file == NULL) {
+		printf("File was not succesfully opened\n");
+		return 1;
+	}
+
+	for (int i = 0; i < 241011; i++) {
+		if (i == 178505) {
+			int x = 0;
+		}
+
+		log_cpu_state(&cpu, file);
+
 		cpu_tick(&cpu);
 
 		if (read_byte(cpu.bus, 0xff02) == 0x81) {
-			printf("%c", read_byte(cpu.bus, 0xff01));
+			if (read_byte(cpu.bus, 0xff01) != 48) {
+				printf("%c", read_byte(cpu.bus, 0xff01));
+			}
 		}
 	}
+
+	fclose(file);
 
 	free_bus(&bus);
 	free_cpu(&cpu);

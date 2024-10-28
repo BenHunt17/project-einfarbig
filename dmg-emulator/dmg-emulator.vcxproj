@@ -48,6 +48,7 @@
     <ClInclude Include="src\cpu\instructions\jump_instructions.h" />
     <ClInclude Include="src\cpu\instructions\rotate_shift_instructions.h" />
     <ClInclude Include="src\debug\logger.c.h" />
+    <ClInclude Include="src\debug\logger.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\test\roms\blargg_cpu_instructions\06-ld-r-r.gb">

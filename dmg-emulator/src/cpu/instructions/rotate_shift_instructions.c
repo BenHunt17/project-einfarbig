@@ -43,7 +43,7 @@ int rrca(Cpu* cpu) {
 
 int rra(Cpu* cpu) {
 	uint8_t bit0 = cpu->registers[REGISTER_A] & 0x1;
-	cpu->registers[REGISTER_A] = get_flag(cpu, CARRY_FLAG_BIT) | (cpu->registers[REGISTER_A] >> 1);
+	cpu->registers[REGISTER_A] = (get_flag(cpu, CARRY_FLAG_BIT) << 7) | (cpu->registers[REGISTER_A] >> 1);
 
 	update_shift_rotate_a_flags(cpu, bit0);
 

@@ -30,6 +30,7 @@
     <ClInclude Include="src\cpu\instructions\general_purpose_instructions.h" />
     <ClInclude Include="src\cpu\decoder.h" />
     <ClInclude Include="src\debug\logger.c.h" />
+    <ClInclude Include="src\debug\logger.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\test\roms\blargg_cpu_instructions\06-ld-r-r.gb" />
