@@ -49,16 +49,12 @@ void write_byte(Bus* bus, uint16_t address, uint8_t data) {
 }
 
 uint16_t read_word(Bus* bus, uint16_t address) {
-	//TODO - Double check if this abstraction works
-
 	uint8_t lo = read_byte(bus, address);
 	uint8_t hi = read_byte(bus, address + 1);
 	return (hi << 8) | lo;
 }
 
 void write_word(Bus* bus, uint16_t address, uint16_t data) {
-	//TODO - Double check if this abstraction works
-	
 	uint8_t lo = (uint8_t)(data & 0xff);
 	uint8_t hi = (uint8_t)((data >> 8) & 0xff);
 	write_byte(bus, address, lo);

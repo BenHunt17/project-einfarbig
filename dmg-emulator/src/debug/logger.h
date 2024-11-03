@@ -6,6 +6,6 @@
 
 #include "../cpu/cpu.h"
 
-#define DEBUG_ENABLED 1
+#define DEBUG_ENABLED 0
 
 void log_cpu_state(Cpu* cpu, FILE* file);

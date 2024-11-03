@@ -21,9 +21,9 @@ int add_sp_e(Cpu* cpu) {
 
 	write_register_pair(cpu, REGISTER_PAIR_SP, sp + data);
 
-	set_flag(cpu, HALF_CARRY_FLAG_BIT, ((data & 0xfff) + (sp & 0xfff)) > 0xfff);
+	set_flag(cpu, HALF_CARRY_FLAG_BIT, ((data & 0xf) + (sp & 0xf)) > 0xf);
 	set_flag(cpu, SUBTRACTION_FLAG_BIT, 0x0);
-	set_flag(cpu, CARRY_FLAG_BIT, sp + data > 0xffff);
+	set_flag(cpu, CARRY_FLAG_BIT, (sp & 0xff) + (data & 0xff) > 0xff);
 	set_flag(cpu, ZERO_FLAG_BIT, 0x0);
 
 	return 16;

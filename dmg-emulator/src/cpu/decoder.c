@@ -169,7 +169,7 @@ int decode_execute(Cpu* cpu, uint8_t opcode) {
 			cycles = ld_nn_sp(cpu);
 			break;
 
-		case 0x80: case 0x81: case 0x82: case 0x84: case 0x85: case 0x87:
+		case 0x80: case 0x81: case 0x82: case 0x83: case 0x84: case 0x85: case 0x87:
 			cycles = add_a_r(cpu, decode_register(opcode & 7));
 			break;
 
@@ -207,6 +207,7 @@ int decode_execute(Cpu* cpu, uint8_t opcode) {
 
 		case 0x98: case 0x99: case 0x9a: case 0x9b: case 0x9c: case 0x9d: case 0x9f:
 			cycles = sbc_a_r(cpu, decode_register(opcode & 7));
+			break;
 
 		case 0xde:
 			cycles = sbc_a_n(cpu);
@@ -218,6 +219,7 @@ int decode_execute(Cpu* cpu, uint8_t opcode) {
 
 		case 0xa0: case 0xa1: case 0xa2: case 0xa3: case 0xa4: case 0xa5: case 0xa7:
 			cycles = and_a_r(cpu, decode_register(opcode & 7));
+			break;
 
 		case 0xe6:
 			cycles = and_a_n(cpu);
@@ -253,6 +255,7 @@ int decode_execute(Cpu* cpu, uint8_t opcode) {
 
 		case 0xb8: case 0xb9: case 0xba: case 0xbb: case 0xbc: case 0xbd: case 0xbf:
 			cycles = cp_a_r(cpu, decode_register(opcode & 7));
+			break;
 
 		case 0xfe:
 			cycles = cp_a_n(cpu);

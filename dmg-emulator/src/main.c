@@ -12,9 +12,11 @@ int main() {
 
 	Cpu cpu = { 0 };
 	initialise_cpu(&cpu, &bus);
+	
+	//TODO - come back to 02
 
 	FILE* file;
-	fopen_s(&file, "C:/Users/Ben/Documents/GitHub/project-einfarbig/dmg-emulator/src/test/roms/blargg_cpu_instructions/06-ld-r-r.gb", "rb");
+	fopen_s(&file,  "src/test/roms/blargg_cpu_instructions/01.gb", "rb");
 	if (file == NULL) {
 		printf("File was not succesfully opened\n");
 		return 1;
@@ -34,25 +36,20 @@ int main() {
 	fclose(file);
 
 	FILE* f;
-	fopen_s(&f, "C:/Users/Ben/Documents/GitHub/project-einfarbig/dmg-emulator/src/debug/logs/state.txt", "a+");
+	fopen_s(&f, "src/debug/logs/state.txt", "a+");
 	if (file == NULL) {
 		printf("File was not succesfully opened\n");
 		return 1;
 	}
 
-	for (int i = 0; i < 241011; i++) {
-		if (i == 178505) {
-			int x = 0;
-		}
-
+	for (int i = 0; i < 2210640; i++) {
 		log_cpu_state(&cpu, file);
 
 		cpu_tick(&cpu);
 
 		if (read_byte(cpu.bus, 0xff02) == 0x81) {
-			if (read_byte(cpu.bus, 0xff01) != 48) {
-				printf("%c", read_byte(cpu.bus, 0xff01));
-			}
+			printf("%c", read_byte(cpu.bus, 0xff01));
+			write_byte(cpu.bus, 0xff02, 0x0);
 		}
 	}
 

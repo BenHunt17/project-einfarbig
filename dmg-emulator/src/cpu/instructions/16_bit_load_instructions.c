@@ -14,6 +14,14 @@ int ld_sp_hl(Cpu* cpu) {
 
 int push_rr(Cpu* cpu, RegisterPair rp) {
 	uint16_t data = read_register_pair(cpu, rp);
+
+	if (rp == REGISTER_PAIR_AF) {
+		//Turns out the lower four bits of the F register should always be cleared. This wasn't obvious when I started this and I 
+		//don't want to re-engineer my registers code, therefore I just intercept writes to F in the push instruction since in theory
+		//only this instruction directly modifies the F register. Also this fixes the error found by blargg's test
+		data = data & 0xfff0;
+	}
+
 	write_word(cpu->bus, cpu->sp - 2, data);
 	cpu->sp -= 2;
 	return 16;
@@ -21,6 +29,7 @@ int push_rr(Cpu* cpu, RegisterPair rp) {
 
 int pop_rr(Cpu* cpu, RegisterPair rp) {
 	uint16_t data = read_word(cpu->bus, cpu->sp);
+
 	write_register_pair(cpu, rp, data);
 	cpu->sp += 2;
 	return 12;
@@ -31,9 +40,9 @@ int ld_hl_sp_e(Cpu* cpu) {
 	write_register_pair(cpu, REGISTER_PAIR_HL, data + cpu->sp);
 
 	set_flag(cpu, ZERO_FLAG_BIT, 0x0);
-	set_flag(cpu, HALF_CARRY_FLAG_BIT, ((data & 0xfff) + (cpu->sp & 0xfff)) > 0xfff);
+	set_flag(cpu, HALF_CARRY_FLAG_BIT, ((data & 0xf) + (cpu->sp & 0xf)) > 0xf);
 	set_flag(cpu, SUBTRACTION_FLAG_BIT, 0x0);
-	set_flag(cpu, CARRY_FLAG_BIT, data + cpu->sp > 0xffff);
+	set_flag(cpu, CARRY_FLAG_BIT, (data & 0xff) + (cpu->sp & 0xff) > 0xff);
 
 	return 12;
 }

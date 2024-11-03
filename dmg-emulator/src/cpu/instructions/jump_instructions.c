@@ -12,7 +12,7 @@ int jp_cc_nn(Cpu* cpu, Condition cc) {
 		return 16;
 	}
 
-	cpu->pc++;
+	cpu->pc += 2;
 	return 12;
 }
 
